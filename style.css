@@ -1,0 +1,113 @@
+/*Raleway font*/
+@import url(http://fonts.googleapis.com/css?family=Raleway:500,600,700,100,800,900,400,200,300);
+
+*, html, body {
+  font-family: raleway;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.full {
+  height:100%;
+  width:100%;
+}
+
+#everything {
+  width:101%;
+  height:101%;
+  margin-left:-1%;
+  margin-top:-1%;
+  overflow: hidden;
+}
+
+#header-container {
+  height:100%;
+  width:100%;
+  z-index:100000000000000;
+  pointer-events:none;
+}
+
+#header {
+  pointer-events:auto;
+  height:10%;
+  width:100%;
+  margin-top:0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#game-container-outer {
+  height:100%;
+  width:100%;
+}
+
+#header-container, #game-container {
+  display:inline-block;
+  position:absolute;
+}
+
+.background-full {
+  width:100%;
+  height:100%;
+  position:absolute;
+  display:inline-block;
+}
+
+/*Allows for a square.*/
+
+#game-container {
+  position:relative;
+  width:80%;
+  margin-left: 10%; /*should center this piece of crap*/
+  margin-top: 8%;
+}
+
+#game-container:before {
+  content: "";
+	display: block;
+	padding-top: 50%;
+}
+
+#gamey {
+  position:absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: 1px solid black;
+}
+
+.row {
+  height:1px;
+  width:100%;
+  display:block;
+  margin: 0 0 0 0;
+  background-color:black;
+  position:relative;
+}
+
+#player {
+  height:50px;
+  width:50px;
+  display:inline-block;
+  position:relative;
+  margin: 0 0 0 0;
+  background-color: blue;
+  transition: margin-left 0.15s, margin-top 0.15s
+  -webkit-transition: margin-left 0.15s, margin-top 0.15s
+}
+
+.column {
+  height:100%;
+  width:1px;
+  background-color:black;
+  margin: 0 0 0 0;
+  display:inline-block;
+  position:relative;
+}
