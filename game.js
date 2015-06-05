@@ -8,10 +8,13 @@ var maxY = amtOfRows - 1;
 var cellHeight, cellWidth;
 var moveHeight, moveWidth;
 
-var amtOfEnemies = 5;
+var amtOfEnemies = 4;
 
 var ec = [];
 var es = [];
+
+var ws = [];
+var wc = [[2, 5], [3, 5], [4, 5], [5, 5], [5, 6], [5, 7], [5, 8]];
 
 var pInit = false;
 
@@ -39,6 +42,8 @@ var updateVals = function() {
   $('#player').width(cellWidth + 1);
   $('.enemy').height(cellHeight + 1);
   $('.enemy').width(cellWidth + 1);
+  $('.wall').height(cellHeight);
+  $('.wall').width(cellWidth);
 }
 
 
@@ -49,8 +54,11 @@ var Player = function() {
   this.y = 0;
   this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'></div></div>"
   this.speed = 1;
+  this.speed1 = this.speed + 1;
+  this.id = '#player';
+  this.type = 'player';
   this.init = function() {
-    $('#player-background').append(this.html);
+    $('#'+this.type+'-background').append(this.html);
     this.update();
     pInit = true;
   }
@@ -60,16 +68,14 @@ var Player = function() {
     this.init();
   }
   this.die = function() {
-      this.remove();
       deleteGame();
   }
   this.remove = function() {
-    $('#player').remove();
+    $(this.id).remove();
   }
   this.update = function() {
-    $('#coords').html("coords: " + this.x + ", " + this.y);
-    $('#player').css("margin-left", this.x*actW);
-    $('#player').css("margin-top", this.y*actH);
+    $(this.id).css("margin-left", this.x*actW);
+    $(this.id).css("margin-top", this.y*actH);
     if(checkForEnemy(this.x, this.y)) {
       this.die();
     }
@@ -78,12 +84,31 @@ var Player = function() {
     if(this.x - dist <= 0) {
       dist = this.x;
     }
+    //BELOW IS A FAILED ATTEMPT AT WALL DETECTION WITH SPEED
+    //THE STUPID FOR LOOP KEPT ON BREAKING FOR SOME REASON
+    //DO NOT USE WALLS WITH SPEED < 1!!!!!!!!!!!!!!
+    // for(i = 1; i < (this.speed1); i++) {
+    //   var wallCheck = checkForWall((this.x - i), this.y);
+    //   alert(wallCheck);
+    //    if(wallCheck != -1) {
+    //      alert(wallCheck);
+    //      dist = Math.abs(wc[wallCheck][0] - this.x) - (i - 1));
+    //    }
+    // }
+    var wallCheck = checkForWall(this.x - dist, this.y);
+    if(wallCheck != -1) {
+      dist = Math.abs(wc[wallCheck][0] - this.x) - 1;
+    }
     this.x -= dist;
     this.update();
   }
   this.right = function(dist) {
     if(this.x + dist >= maxX) {
       dist = maxX - this.x;
+    }
+    var wallCheck = checkForWall(this.x + dist, this.y);
+    if(wallCheck != -1) {
+      dist = Math.abs(wc[wallCheck][0] - this.x) - 1;
     }
     this.x += dist;
     this.update();
@@ -92,6 +117,10 @@ var Player = function() {
     if(this.y - dist <= 0) {
       dist = this.y;
     }
+    var wallCheck = checkForWall(this.x, this.y - dist);
+    if(wallCheck != -1) {
+      dist = Math.abs(wc[wallCheck][1] - this.y) - 1;
+    }
     this.y -= dist;
     this.update();
   }
@@ -99,10 +128,39 @@ var Player = function() {
     if(this.y + dist >= maxY) {
       dist = maxY - this.y;
     }
+    var wallCheck = checkForWall(this.x, this.y + dist);
+    if(wallCheck != -1) {
+      dist = Math.abs(wc[wallCheck][1] - this.y) - 1;
+    }
     this.y += dist;
     this.update();
   }
 }
+
+
+//Walls!
+
+var Wall = function(x, y, num) {
+  this.x = x;
+  this.y = y;
+  this.num = num;
+  this.id = 'wall'+this.num;
+  this.html = "<div id='"+this.id+"' class='wall'><div id='wall"+this.num+"-mask' class='wall-mask background-full'></div>"
+  this.type = 'wall';
+  this.update = function() {
+    $('#'+this.id).css("margin-left", this.x*actW);
+    $('#'+this.id).css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    $('#'+this.type+'-background').append(this.html);
+    this.update();
+  }
+  this.init();
+  this.remove = function() {
+    $(this.id).remove();
+  }
+}
+
 
 //Enemy!
 
@@ -177,6 +235,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       dist = this.x;
     }
     if(!(checkForEnemy(this.x - dist, this.y))) {
+      var wallCheck = checkForWall(this.x - dist, this.y);
+      if(wallCheck != -1) {
+        dist = Math.abs(wc[wallCheck][0] - this.x) - 1;
+      }
       this.x -= dist;
       this.update();
     }
@@ -186,6 +248,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       dist = maxX - this.x;
     }
     if(!(checkForEnemy(this.x + dist, this.y))) {
+      var wallCheck = checkForWall(this.x + dist, this.y);
+      if(wallCheck != -1) {
+        dist = Math.abs(wc[wallCheck][0] - this.x) - 1;
+      }
       this.x += dist;
       this.update();
     }
@@ -195,6 +261,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       dist = this.y;
     }
     if(!(checkForEnemy(this.x, this.y - dist))) {
+      var wallCheck = checkForWall(this.x, this.y - dist);
+      if(wallCheck != -1) {
+        dist = Math.abs(wc[wallCheck][1] - this.y) - 1;
+      }
       this.y -= dist;
       this.update();
     }
@@ -204,9 +274,13 @@ var Enemy = function(num) { // lol idk how to do inheritance
       dist = maxY - this.y;
     }
     if(!(checkForEnemy(this.x, this.y + dist))) {
+      var wallCheck = checkForWall(this.x, this.y + dist);
+      if(wallCheck != -1) {
+        dist = Math.abs(wc[wallCheck][1] - this.y) - 1;
+      }
       this.y += dist;
       this.update();
-    };
+    }
   }
 }
 
@@ -220,6 +294,15 @@ var checkForEnemy = function(x, y) {
   return response;
 }
 
+var checkForWall = function(x, y) {
+  var response = -1;
+  for(i = 0; i < wc.length; i++) {
+    if((wc[i][0] === x) && (wc[i][1] === y)) {
+      response = i; // returns wall collision number, allowing for varying speeds to subtract from the wall's coords
+    }
+  }
+  return response
+}
 
 
 //Draw rows in the back of the game
@@ -247,9 +330,9 @@ var drawGrid = function(colnum, rownum) {
 //Game controllers
 var deleteGame = function() {
   delete p;
-  $('.enemy').remove();
-  delete es;
-  es = [];
+  setTimeout(function() {
+    $('#player').remove();
+  }, 100);
   ec = [];
   gameActive = false;
   state = 'down';
@@ -259,6 +342,11 @@ var deleteGame = function() {
 }
 
 var initGame = function() {
+  $('.enemy').remove();
+  $('.wall').css('margin', '0px');
+  for(i = 0; i < ws.length; i++) {
+    ws[i].update();
+  }
   gameActive = true;
   initsizes();
   drawGrid(amtOfCols, amtOfRows);
@@ -301,6 +389,9 @@ $(document).ready(function() {
   }
   $('#msg').html('');
   $('#playbutton').html('click to reset');
+  for(i = 0; i < wc.length; i++) {
+    ws[i] = new Wall(wc[i][0], wc[i][1], i);
+  }
   $('#playbutton').click(function() {
     if(gameActive) {
       p.die();

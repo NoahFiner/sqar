@@ -146,12 +146,14 @@ h1 {
   margin-right:auto;
   left: 0;
   position:relative;
-  transition: left 0.25s;
-  -webkit-transition: left 0.25s;
+  color:white;
+  transition: left 0.25s, color 0.25s;
+  -webkit-transition: left 0.25s, color 0.25s;
 }
 
 #header-h1.active {
-  left:-13%
+  left:-13%;
+  color: gray;
 }
 
 #header-button-div-div {
@@ -173,6 +175,7 @@ h1 {
   cursor: pointer;
   pointer-events: auto;
   z-index:1000;
+  color: white;
   transition: left 0.25s, opacity 0.25s;
   -webkit-transition: left 0.25s, opacity 0.25s;
 }
@@ -183,7 +186,7 @@ h1 {
 }
 
 #header-content {
-  width:100%;
+  width:101%;
   background-color: rgba(0, 0, 0, 0.9);
   height:100%;
   margin-top:-100%;
@@ -232,4 +235,15 @@ h2 {
 
 #playbutton:active {
   background-color: rgba(255, 255, 255, 1);
+}
+
+.wall {
+  margin:0;
+  position:absolute;
+  display:inline-block;
+  background-color: gray;
+}
+
+.wall-mask {
+  margin: 0;
 }
