@@ -32,7 +32,7 @@ body {
   width:101%;
   margin-left:-1%;
   margin-top:-1%;
-  z-index:100000000000000;
+  z-index:10000;
   pointer-events:none;
 }
 
@@ -106,7 +106,7 @@ body {
 
 .enemy {
   display:inline-block;
-  position:relative;
+  position:absolute;
   margin: 0 0 0 0;
   background-color: red;
 }
@@ -138,6 +138,7 @@ h1 {
   height:100%;
   width:100%;
   margin-top:1%;
+  pointer-events: none;
 }
 
 #header-h1 {
@@ -161,6 +162,7 @@ h1 {
   text-align:center;
   margin-left:auto;
   margin-right:auto;
+  pointer-events: none;
 }
 
 #header-button {
@@ -169,6 +171,8 @@ h1 {
   opacity: 0;
   left: 0;
   cursor: pointer;
+  pointer-events: auto;
+  z-index:1000;
   transition: left 0.25s, opacity 0.25s;
   -webkit-transition: left 0.25s, opacity 0.25s;
 }
@@ -186,11 +190,17 @@ h1 {
   transition: margin-top 1s;
   -webkit-transition: margin-top 1s;
   text-align:center;
+  pointer-events: auto;
 }
 
 #header-content.shown {
   margin-top:0;
   pointer-events:auto;
+}
+
+#header-content.shown * {
+  pointer-events:auto;
+  z-index:10000000;
 }
 
 p {
@@ -199,4 +209,27 @@ p {
 
 a {
   color:blue;
+}
+
+h2 {
+  font-size:100px;
+  font-weight:400;
+  color: white;
+}
+
+#playbutton {
+  border: 1px solid white;
+  border-radius:20px;
+  background-color: transparent;
+  transition: background-color 0.25s;
+  -webkit-transition: background-color 0.25s;
+  cursor:pointer;
+}
+
+#playbutton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#playbutton:active {
+  background-color: rgba(255, 255, 255, 1);
 }

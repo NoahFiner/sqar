@@ -8,6 +8,15 @@ var maxY = amtOfRows - 1;
 var cellHeight, cellWidth;
 var moveHeight, moveWidth;
 
+var amtOfEnemies = 5;
+
+var ec = [];
+var es = [];
+
+var pInit = false;
+
+var gameActive = false;
+
 var initsizes = function() {
   var innerWindowHeight = $(window).height;
   var innerWindowWidth = $(window).width;
@@ -43,11 +52,16 @@ var Player = function() {
   this.init = function() {
     $('#player-background').append(this.html);
     this.update();
+    pInit = true;
   }
   this.place = function(x, y) {
     this.x = x;
     this.y = y;
     this.init();
+  }
+  this.die = function() {
+      this.remove();
+      deleteGame();
   }
   this.remove = function() {
     $('#player').remove();
@@ -56,6 +70,9 @@ var Player = function() {
     $('#coords').html("coords: " + this.x + ", " + this.y);
     $('#player').css("margin-left", this.x*actW);
     $('#player').css("margin-top", this.y*actH);
+    if(checkForEnemy(this.x, this.y)) {
+      this.die();
+    }
   }
   this.left = function(dist) {
     if(this.x - dist <= 0) {
@@ -87,8 +104,6 @@ var Player = function() {
   }
 }
 
-
-
 //Enemy!
 
 var Enemy = function(num) { // lol idk how to do inheritance
@@ -98,6 +113,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'></div></div>"
   this.speed = 1;
   this.init = function() {
+    this.remove();
     $('#enemy-background').append(this.html);
     this.update();
   }
@@ -154,35 +170,54 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.update = function() {
     $('#enemy'+this.num).css("margin-left", this.x*actW);
     $('#enemy'+this.num).css("margin-top", this.y*actH);
+    ec[num] = [this.x, this.y];
   }
   this.left = function(dist) {
     if(this.x - dist <= 0) {
       dist = this.x;
     }
-    this.x -= dist;
-    this.update();
+    if(!(checkForEnemy(this.x - dist, this.y))) {
+      this.x -= dist;
+      this.update();
+    }
   }
   this.right = function(dist) {
     if(this.x + dist >= maxX) {
       dist = maxX - this.x;
     }
-    this.x += dist;
-    this.update();
+    if(!(checkForEnemy(this.x + dist, this.y))) {
+      this.x += dist;
+      this.update();
+    }
   }
   this.up = function(dist) {
     if(this.y - dist <= 0) {
       dist = this.y;
     }
-    this.y -= dist;
-    this.update();
+    if(!(checkForEnemy(this.x, this.y - dist))) {
+      this.y -= dist;
+      this.update();
+    }
   }
   this.down = function(dist) {
     if(this.y + dist >= maxY) {
       dist = maxY - this.y;
     }
-    this.y += dist;
-    this.update();
+    if(!(checkForEnemy(this.x, this.y + dist))) {
+      this.y += dist;
+      this.update();
+    };
   }
+}
+
+var checkForEnemy = function(x, y) {
+  var response = false;
+  for(i = 0; i < ec.length; i++) {
+    if(ec[i][0] === x && ec[i][1] === y) {
+      response = true;
+    }
+  }
+  return response;
 }
 
 
@@ -207,14 +242,74 @@ var drawGrid = function(colnum, rownum) {
   }
 }
 
-$(document).ready(function() {
+
+
+//Game controllers
+var deleteGame = function() {
+  delete p;
+  $('.enemy').remove();
+  delete es;
+  es = [];
+  ec = [];
+  gameActive = false;
+  state = 'down';
+  toggleHeader();
+  $('#msg').html('make a new game to play!');
+  $('#playbutton').html('click to play!');
+}
+
+var initGame = function() {
+  gameActive = true;
   initsizes();
   drawGrid(amtOfCols, amtOfRows);
   updateVals();
-  var p = new Player();
+  p = new Player();
   p.place(1, 1);
-  var e1 = new Enemy(1);
-  e1.place(2, 2);
+  for(i = 0; i < amtOfEnemies; i++) {
+    es[i] = new Enemy(i);
+    var randX = Math.floor(Math.random()*amtOfCols);
+    var randY = Math.floor(Math.random()*amtOfRows);
+    while(checkForEnemy(randX, randY)) { // avoids enemies spawning on each other
+      var randX = Math.floor(Math.random()*amtOfCols);
+      var randY = Math.floor(Math.random()*amtOfRows);
+    };
+    es[i].place(randX, randY);
+  }
+  $('#msg').html('');
+  setTimeout(function() {$('#playbutton').html('click to reset');}, 500);
+  state = 'up';
+  toggleHeader();
+  updateVals();
+}
+
+$(document).ready(function() {
+  gameActive = true;
+  initsizes();
+  drawGrid(amtOfCols, amtOfRows);
+  updateVals();
+  p = new Player();
+  p.place(1, 1);
+  for(i = 0; i < amtOfEnemies; i++) {
+    es[i] = new Enemy(i);
+    var randX = Math.floor(Math.random()*amtOfCols);
+    var randY = Math.floor(Math.random()*amtOfRows);
+    while(checkForEnemy(randX, randY)) { // avoids enemies spawning on each other
+      var randX = Math.floor(Math.random()*amtOfCols);
+      var randY = Math.floor(Math.random()*amtOfRows);
+    };
+    es[i].place(randX, randY);
+  }
+  $('#msg').html('');
+  $('#playbutton').html('click to reset');
+  $('#playbutton').click(function() {
+    if(gameActive) {
+      p.die();
+      setTimeout(function() {initGame()}, 100);
+    }
+    else {
+      initGame();
+    }
+  })
   $(window).resize(function() {
     initsizes();
     updateVals();
@@ -222,20 +317,36 @@ $(document).ready(function() {
   });
   updateVals(); // to be safe
   $(document).keydown(function(key) {
-    switch(parseInt(key.which,10)) {
-      case 37:
-        p.left(p.speed);
-        break;
-      case 38:
-        p.up(p.speed);
-        break;
-      case 39:
-        p.right(p.speed);
-        break;
-      case 40:
-        p.down(p.speed);
-        break;
-    };
-    e1.getDirection(p.x, p.y);
+    var keyVal = parseInt(key.which,10);
+    if((keyVal === 37 || keyVal ===  38 || keyVal ===  39 || keyVal === 40) && (gameActive) && (state === 'down')) {
+      if(checkForEnemy(p.x, p.y)) {
+        p.die();
+      }
+      switch(keyVal) {
+        case 37: // left
+          p.left(p.speed);
+          break;
+
+        case 38: // up
+          p.up(p.speed);
+          break;
+
+        case 39: // right
+          p.right(p.speed);
+          break;
+
+        case 40: // down
+          p.down(p.speed);
+          break;
+      };
+      es.forEach(function(item) {
+        item.getDirection(p.x, p.y);
+        if(item.num === es.length - 1) {
+          if(checkForEnemy(p.x, p.y)) {
+            p.die();
+          }
+        }
+      });
+    }
   });
 });

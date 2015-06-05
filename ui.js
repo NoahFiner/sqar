@@ -8,15 +8,19 @@ $(document).ready(function() {
     $('#header-button').removeClass('active');
   });
   $('#header-button').click(function() {
-    if(state === 'up') {
-      $('#header-content').removeClass('shown');
-      $('#header-button').html("back to menu &uarr;");
-      state = 'down';
-    }
-    else {
-      $('#header-content').addClass('shown');
-      $('#header-button').html("back to game &darr;");
-      state = 'up';
-    }
+    toggleHeader();
   })
 });
+
+var toggleHeader = function() {
+  if(state === 'up') {
+    $('#header-content').removeClass('shown');
+    $('#header-button').html("back to menu &uarr;");
+    state = 'down';
+  }
+  else {
+    $('#header-content').addClass('shown');
+    $('#header-button').html("back to game &darr;");
+    state = 'up';
+  }
+}
