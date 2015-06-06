@@ -194,6 +194,7 @@ h1 {
   -webkit-transition: margin-top 1s;
   text-align:center;
   pointer-events: auto;
+  overflow-y: scroll;
 }
 
 #header-content.shown {
@@ -218,6 +219,60 @@ h2 {
   font-size:100px;
   font-weight:400;
   color: white;
+}
+
+h6 {
+  font-size:25px;
+  font-weight:600;
+  color:white;
+}
+
+#levels {
+  width: 80%;
+  position:relative;
+  height: 80%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.lvl-outer {
+  display:inline-block;
+  position:relative;
+  background-color: rgba(50, 50, 50, 0.1);
+  line-height:40px;
+  border-radius: 10px;
+  text-align:center;
+  vertical-align: middle;
+  opacity:0.3;
+  cursor: auto;
+  transition: background-color 0.25s, border-radius 0.25s;
+  -webkit-transition: background-color 0.25s, border-radius 0.25s;
+}
+
+.lvl-outer p {
+  position: absolute;
+  top: 50%;
+  margin: -22% 0 0 43%;
+}
+
+.lvl-outer.selectable {
+  opacity:1;
+  cursor: pointer;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.lvl-outer:hover {
+  background-color: #72B972;
+  border-radius: 0px;
+}
+
+.lvl-outer:active {
+  background-color: #FFF;
+}
+
+.lvl-outer.selected {
+  background-color:#92EB93;
+  border-radius: 0px;
 }
 
 #playbutton {
