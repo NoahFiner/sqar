@@ -1,4 +1,7 @@
 var state = 'down';
+var lvl;
+var lvlnum = 1;
+
 $(document).ready(function() {
   //Level grid
 
@@ -30,7 +33,9 @@ $(document).ready(function() {
     if(lvlselect) {
       $('.lvl-outer').removeClass('selected');
       $(this).addClass('selected');
-      lvl = lvls[Math.floor(($(this).attr('id'))[9])-1];
+      lvlnum = (Math.floor(($(this).attr('id'))[9]))
+      lvl = lvls[lvlnum - 1];
+      setLvlNum(lvlnum);
     };
   })
 
@@ -59,9 +64,11 @@ var toggleHeader = function() {
     $('#header-button').html("back to game &darr;");
     if(gameActive) {
       $('.lvl-outer').removeClass('selectable');
+      lvlselect = false;
     }
     else {
       $('.lvl-outer').addClass('selectable');
+      lvlselect = true;
     }
     state = 'up';
   }

@@ -20,6 +20,8 @@ var amtOfEnemies = lvl.ecords.length;
 var ws = [];
 var wc = lvl.wcords;
 
+var endc = lvl.endcoords;
+
 var pc = lvl.pcords;
 
 var pInit = false;
@@ -27,6 +29,8 @@ var pInit = false;
 var speed = 1;
 
 var gameActive = false;
+
+lvlnum = 0;
 
 var initVars = function() {
   //Initalizing variables
@@ -48,12 +52,18 @@ var initVars = function() {
 
   pc = lvl.pcords;
 
+  endc = lvl.endcoords;
+
   pInit = false;
 
   speed = 1;
 
   gameActive = false;
 };
+
+var setLvlNum = function(num) {
+  lvlnum = num;
+}
 
 var initsizes = function() {
   var innerWindowHeight = $(window).height;
@@ -79,6 +89,8 @@ var updateVals = function() {
   $('.enemy').width(cellWidth + 1);
   $('.wall').height(cellHeight);
   $('.wall').width(cellWidth);
+  $('#pend').width(cellWidth);
+  $('#pend').height(cellHeight);
 }
 
 
@@ -105,6 +117,14 @@ var Player = function() {
   this.die = function() {
       deleteGame();
   }
+  this.win = function() {
+    lvlnum += 1;
+    lvl = lvls[lvlnum - 1];
+    $('#lvl-outer'+(lvlnum - 1)).addClass('won');
+    $('.lvl-outer').removeClass('selected');
+    $('#lvl-outer'+(lvlnum)).addClass('selected');
+    deleteGame();
+  }
   this.remove = function() {
     $(this.id).remove();
   }
@@ -113,6 +133,14 @@ var Player = function() {
     $(this.id).css("margin-top", this.y*actH);
     if(checkForEnemy(this.x, this.y)) {
       this.die();
+    }
+  }
+  this.hitDetection = function() {
+    if(enemyCheck(this.x, this.y)) {
+      this.die();
+    }
+    if(checkForPend(this.x, this.y)) {
+      this.win();
     }
   }
   this.left = function(dist) {
@@ -136,9 +164,7 @@ var Player = function() {
     }
     this.x -= dist;
     this.update();
-    if(enemyCheck(this.x, this.y)) {
-      this.die();
-    }
+    this.hitDetection();
   }
   this.right = function(dist) {
     if(this.x + dist >= maxX) {
@@ -150,9 +176,7 @@ var Player = function() {
     }
     this.x += dist;
     this.update();
-    if(enemyCheck(this.x, this.y)) {
-      this.die();
-    }
+    this.hitDetection();
   }
   this.up = function(dist) {
     if(this.y - dist <= 0) {
@@ -164,9 +188,7 @@ var Player = function() {
     }
     this.y -= dist;
     this.update();
-    if(enemyCheck(this.x, this.y)) {
-      this.die();
-    }
+    this.hitDetection();
   }
   this.down = function(dist) {
     if(this.y + dist >= maxY) {
@@ -178,9 +200,7 @@ var Player = function() {
     }
     this.y += dist;
     this.update();
-    if(enemyCheck(this.x, this.y)) {
-      this.die();
-    }
+    this.hitDetection();
   }
 }
 
@@ -221,6 +241,27 @@ var Wall = function(x, y, num) {
   }
 }
 
+
+//Player goal!
+
+var Pend = function(x, y) {
+  this.x = x;
+  this.y = y;
+  this.html = "<div id='pend'></div>";
+  this.type = 'pend';
+  this.update = function() {
+    $('#pend').css("margin-left", this.x*actW);
+    $('#pend').css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    $('#pend-background').append(this.html);
+    this.update();
+  }
+  this.init();
+  this.remove = function() {
+    $('#pend').remove();
+  }
+}
 
 //Enemy!
 
@@ -364,6 +405,14 @@ var checkForWall = function(x, y) {
   return response
 }
 
+var checkForPend = function(x, y) {
+  var response = false;
+  if((endc[0] === x) && (endc[1] === y)) {
+    response = true;
+  }
+  return response;
+}
+
 
 //Draw rows in the back of the game
 
@@ -404,23 +453,27 @@ var deleteGame = function() {
 var hi = 1;
 
 var initGame = function() {
-  initVars();
   lvlselect = false;
   $('.enemy').remove();
   $('.wall').remove();
+  $('#pend').remove();
   ws = [];
-  for(i = 0; i < wc.length; i++) {
-    ws[i] = new Wall(wc[i][0], wc[i][1], i);
-  }
+  es = [];
+  wc = [];
+  ec = [];
+  initVars();
   gameActive = true;
   initsizes();
   drawGrid(amtOfCols, amtOfRows);
   updateVals();
   $('#player').remove();
   delete p;
+  delete pend;
+  for(i = 0; i < wc.length; i++) {
+    ws[i] = new Wall(wc[i][0], wc[i][1], i);
+  }
   p = new Player();
   p.place(lvl.pcords[0], lvl.pcords[1]);
-  es = [];
   // for(i = 0; i < amtOfEnemies; i++) {
   //   es[i] = new Enemy(i);
   //   var randX = Math.floor(Math.random()*amtOfCols);
@@ -435,6 +488,7 @@ var initGame = function() {
     es[i] = new Enemy(i);
     es[i].place(lvl.ecords[i][0], lvl.ecords[i][1]);
   }
+  pend = new Pend(endc[0], endc[1]);
   $('#msg').html('');
   setTimeout(function() {$('#playbutton').html('click to reset');}, 500);
   state = 'up';
@@ -468,7 +522,7 @@ $(document).ready(function() {
   for(i = 0; i < wc.length; i++) {
     ws[i] = new Wall(wc[i][0], wc[i][1], i);
   }
-
+  pend = new Pend(endc[0], endc[1]);
   $('#msg').html('');
   $('#playbutton').html('click to reset');
   $('#playbutton').click(function() {

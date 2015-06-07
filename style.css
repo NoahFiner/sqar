@@ -271,8 +271,14 @@ h6 {
 }
 
 .lvl-outer.selected {
-  background-color:#92EB93;
+  background-color:#92EB93 !important;
+  border-radius: 0px !important;
+}
+
+.lvl-outer.won {
+  background-color: rgba(200, 255, 200, 0.5);
   border-radius: 0px;
+  cursor:copy;
 }
 
 #playbutton {
@@ -301,4 +307,11 @@ h6 {
 
 .wall-mask {
   margin: 0;
+}
+
+#pend {
+  margin: 0;
+  position:absolute;
+  display:inline-block;
+  background-color: green;
 }
