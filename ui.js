@@ -1,6 +1,7 @@
 var state = 'down';
 var lvl;
 var lvlnum = 1;
+var weirdlvlnum = 00;
 
 $(document).ready(function() {
   //Level grid
@@ -18,7 +19,7 @@ $(document).ready(function() {
   for(i = 0; i < lvlCols; i++) {
     for(j = 0; j < lvlRows; j++) {
       lvlcounter += 1;
-      $('#levels').append("<div id='lvl-outer"+lvlcounter+"' class='lvl-outer'><p class='lvl-outer-p'>"+lvlcounter+"</p></div>");
+      $('#levels').append("<div id='lvl-outer"+i+''+j+"' class='lvl-outer'><p class='lvl-outer-p'>"+lvlcounter+"</p></div>");
     }
     $('#levels').append("<br>");
   }
@@ -33,7 +34,8 @@ $(document).ready(function() {
     if(lvlselect) {
       $('.lvl-outer').removeClass('selected');
       $(this).addClass('selected');
-      lvlnum = (Math.floor(($(this).attr('id'))[9]))
+      lvlnum = ((Math.floor(($(this).attr('id'))[9]))*9 + (Math.floor(($(this).attr('id'))[10]))) + 1;
+      weirdlvlnum = $(this).attr('id')[9] + '' + $(this).attr('id')[10];
       lvl = lvls[lvlnum - 1];
       setLvlNum(lvlnum);
     };

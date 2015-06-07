@@ -1,3 +1,13 @@
+//Thanks, stackoverflow!
+//This disables scrolling with arrow keys.
+
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
 //Initalizing variables
 var lvl = l1;
 
@@ -119,10 +129,14 @@ var Player = function() {
   }
   this.win = function() {
     lvlnum += 1;
+    var lvlnumRemain = lvlnum % 9;
+    weirdlvlnum = (Math.floor(lvlnum/9) + '' + lvlnumRemain);
+    var weirdlvlnumSub1 = (Math.floor((lvlnum - 1)/9) + '' + ((lvlnum - 1) % 9));
+    var weirdlvlnumSub2 = (Math.floor((lvlnum - 2)/9) + '' + ((lvlnum - 2) % 9));
     lvl = lvls[lvlnum - 1];
-    $('#lvl-outer'+(lvlnum - 1)).addClass('won');
+    $('#lvl-outer'+(weirdlvlnumSub2)).addClass('won');
     $('.lvl-outer').removeClass('selected');
-    $('#lvl-outer'+(lvlnum)).addClass('selected');
+    $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
     deleteGame();
   }
   this.remove = function() {
@@ -260,6 +274,30 @@ var Pend = function(x, y) {
   this.init();
   this.remove = function() {
     $('#pend').remove();
+  }
+}
+
+
+//Instruction text!
+
+var Text = function(text, x, y, num) {
+  this.x = x;
+  this.y = y;
+  this.num = num;
+  this.html = "<p class='instruction' id='instruction"+this.num+"'>"+text+"</p>";
+  this.type = 'instruction-text';
+  this.update = function() {
+    $('#instruction'+this.num).css("margin-left", this.x*actW);
+    $('#instruction'+this.num).css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    $('#text-background').append(this.html);
+    $('#instruction'+this.num).fadeTo(500, 1);
+    this.update();
+  }
+  this.init();
+  this.remove = function() {
+    $('#instruction'+this.num).fadeOut(500, function() {$(this).remove()});
   }
 }
 
@@ -457,6 +495,7 @@ var initGame = function() {
   $('.enemy').remove();
   $('.wall').remove();
   $('#pend').remove();
+  $('.instruction').remove();
   ws = [];
   es = [];
   wc = [];
@@ -489,6 +528,12 @@ var initGame = function() {
     es[i].place(lvl.ecords[i][0], lvl.ecords[i][1]);
   }
   pend = new Pend(endc[0], endc[1]);
+  if(lvl.instruct != '') {
+    texty = new Text(lvl.instruct, lvl.instructX, lvl.instructY, 1);
+    clearTimeout(textyRemove);
+    setTimeout(function() {texty.init()}, 1000);
+    textyRemove = setTimeout(function() {texty.remove()}, 10000);
+  };
   $('#msg').html('');
   setTimeout(function() {$('#playbutton').html('click to reset');}, 500);
   state = 'up';
@@ -522,6 +567,11 @@ $(document).ready(function() {
   for(i = 0; i < wc.length; i++) {
     ws[i] = new Wall(wc[i][0], wc[i][1], i);
   }
+  if(lvl.instruct != '') {
+    texty = new Text(lvl.instruct, lvl.instructX, lvl.instructY, 1);
+    setTimeout(function() {texty.init()}, 1000);
+    textyRemove = setTimeout(function() {texty.remove()}, 10000);
+  };
   pend = new Pend(endc[0], endc[1]);
   $('#msg').html('');
   $('#playbutton').html('click to reset');
@@ -542,6 +592,8 @@ $(document).ready(function() {
   updateVals(); // to be safe
   $(document).keydown(function(key) {
     var keyVal = parseInt(key.which,10);
+    texty.remove();
+    clearTimeout(textyRemove);
     if((keyVal === 37 || keyVal ===  38 || keyVal ===  39 || keyVal === 40) && (gameActive) && (state === 'down')) {
       if(checkForEnemy(p.x, p.y)) {
         p.die();
