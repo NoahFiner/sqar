@@ -83,7 +83,7 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-  border: 1px solid black;
+  border: 1px solid #E2E2E2;
 }
 
 .row {
@@ -91,7 +91,7 @@ body {
   width:100%;
   display:block;
   margin: 0 0 0 0;
-  background-color:black;
+  background-color:#E2E2E2;
   position:relative;
 }
 
@@ -102,6 +102,7 @@ body {
   position:relative;
   margin: 0 0 0 0;
   background-color: blue;
+  border: 1px solid blue;
 }
 
 .enemy {
@@ -109,12 +110,13 @@ body {
   position:absolute;
   margin: 0 0 0 0;
   background-color: red;
+  border: 1px solid red;
 }
 
 .column {
   height:100%;
   width:1px;
-  background-color:black;
+  background-color:#E2E2E2;
   margin: 0 0 0 0;
   display:inline-block;
   position:relative;
@@ -303,6 +305,17 @@ h6 {
   position:absolute;
   display:inline-block;
   background-color: gray;
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transition: transform 0.25s, -webkit-transform 0.25s;
+  -webkit-transdition: transform 0.25s, -webkit-transform 0.25s;
+  border: 1px solid #B9B9B9;
+}
+
+.wall.hit {
+  transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  border: 1px solid #D65A5A;
 }
 
 .wall-mask {
@@ -314,6 +327,9 @@ h6 {
   position:absolute;
   display:inline-block;
   background-color: green;
+  outline-color: #B9B9B9;
+  outline-width: 1px;
+  border: 1px solid #B9B9B9;
 }
 
 .instruction {
@@ -325,4 +341,14 @@ h6 {
   color:white;
   text-shadow: 0 0 5px #000;
   opacity: 0;
+}
+
+.explosion {
+  margin: 0;
+  opacity: 1;
+  height: 50px;
+  width: 50px;
+  position:absolute;
+  display:inline-block;
+  background-color: red;
 }

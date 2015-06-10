@@ -109,7 +109,7 @@ var updateVals = function() {
 var Player = function() {
   this.x = 0;
   this.y = 0;
-  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'></div></div>"
+  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'></div></div>"
   this.speed = speed;
   this.speed1 = this.speed + 1;
   this.id = '#player';
@@ -125,19 +125,30 @@ var Player = function() {
     this.init();
   }
   this.die = function() {
-      deleteGame();
+    explosion = new Explosion(this.x, this.y, 15, 25, 'red', 'red', 'black', 'orange', 'yellow');
+    explosion.init();
+    explosion.explode();
+    deleteGame();
   }
   this.win = function() {
+    explosion = new Explosion(this.x, this.y, 15, 25, '#51D41A', '#8EE668', '#6FDD41', '#37AF05', '#298A00');
+    explosion.init();
+    explosion.explode();
+    $(this.id).css("transform", "rotate(360deg)");
+    $(this.id).css("-webkit-transform", "rotate(360deg)");
+    $(this.id).css("z-index", 1000000000);
     lvlnum += 1;
-    var lvlnumRemain = lvlnum % 9;
-    weirdlvlnum = (Math.floor(lvlnum/9) + '' + lvlnumRemain);
-    var weirdlvlnumSub1 = (Math.floor((lvlnum - 1)/9) + '' + ((lvlnum - 1) % 9));
-    var weirdlvlnumSub2 = (Math.floor((lvlnum - 2)/9) + '' + ((lvlnum - 2) % 9));
+    var lvlnumRemain = lvlnum % 10;
+    weirdlvlnum = (Math.floor(lvlnum/10) + '' + lvlnumRemain);
+    var weirdlvlnumSub1 = (Math.floor((lvlnum - 1)/10) + '' + ((lvlnum - 1) % 10));
+    var weirdlvlnumSub2 = (Math.floor((lvlnum - 2)/10) + '' + ((lvlnum - 2) % 10));
     lvl = lvls[lvlnum - 1];
     $('#lvl-outer'+(weirdlvlnumSub2)).addClass('won');
     $('.lvl-outer').removeClass('selected');
     $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
-    deleteGame();
+    var that = this;
+    setTimeout(function() {$(that.id).fadeTo(250, 0);}, 750);
+    setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $(that.id).css("transform", "rotate(0deg)"); $(that.id).css("-webkit-transform", "rotate(0deg)");}, 1000);
   }
   this.remove = function() {
     $(this.id).remove();
@@ -250,6 +261,11 @@ var Wall = function(x, y, num) {
     this.update();
   }
   this.init();
+  this.hit = function() {
+    $('#'+this.id).addClass("hit");
+    var that = this;
+    setTimeout(function() {$('#'+that.id).removeClass("hit")}, 75)
+  }
   this.remove = function() {
     $(this.id).remove();
   }
@@ -298,6 +314,43 @@ var Text = function(text, x, y, num) {
   this.init();
   this.remove = function() {
     $('#instruction'+this.num).fadeOut(500, function() {$(this).remove()});
+  }
+}
+
+//KABOOM!
+
+//intesnity should be from 1-20.
+
+var Explosion = function(x, y, intensity, quant, c1, c2, c3, c4, c5) {
+  this.x = x;
+  this.y = y;
+  this.quant = quant;
+  this.type = 'explosion';
+  this.colors = [c1, c2, c3, c4, c5];
+  this.update = function() {
+    $('.explosion').css("margin-left", this.x*actW);
+    $('.explosion').css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    for(i = 0; i < this.quant + 1; i++) {
+      $('#explosion-background').append("<div id='explosion"+i+"' class='explosion'></div>");
+      $('#explosion'+i).css("background-color", this.colors[Math.floor(Math.random()*5)]);
+      $('#explosion'+i).css("transition", "margin-left: 0.5s, margin-top: 0.5s, opacity: 1s");
+      $('#explosion'+i).css("-webkit-transition", "margin-left: 0.5s, margin-top: 0.5s, opacity: 1s");
+
+    }
+    this.update();
+  }
+  this.remove = function() {
+    $('.explosion').remove();
+  }
+  this.explode = function() {
+    for(i = 0; i < this.quant + 1; i++ ){
+      $('#explosion'+i).animate({marginLeft: this.x*actW + (Math.floor(Math.random()*intensity*100) - 50*intensity), marginTop: this.y*actH + (Math.floor(Math.random()*intensity*100) - 50*intensity)}, 500);
+      $('#explosion'+i).fadeTo(Math.random()*500 + 1000, 0);
+    }
+    var that = this;
+    setTimeout(function() {that.remove()}, 1750);
   }
 }
 
@@ -438,6 +491,7 @@ var checkForWall = function(x, y) {
   for(i = 0; i < wc.length; i++) {
     if((wc[i][0] === x) && (wc[i][1] === y)) {
       response = i; // returns wall collision number, allowing for varying speeds to subtract from the wall's coords
+      ws[i].hit();
     }
   }
   return response
@@ -513,6 +567,7 @@ var initGame = function() {
   }
   p = new Player();
   p.place(lvl.pcords[0], lvl.pcords[1]);
+  $(p.id).css("opacity", 1);
   // for(i = 0; i < amtOfEnemies; i++) {
   //   es[i] = new Enemy(i);
   //   var randX = Math.floor(Math.random()*amtOfCols);
