@@ -8,6 +8,9 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 
+//None game variables
+loadingTime = 5500;
+
 //Initalizing variables
 var lvl = l1;
 
@@ -601,6 +604,13 @@ $(document).ready(function() {
   gameActive = true;
   initsizes();
   drawGrid(amtOfCols, amtOfRows);
+  $('#loading-square').addClass("load");
+  setTimeout(function() {
+    $('#loading-container').fadeTo(1000, 0);
+  }, loadingTime - 1000);
+  setTimeout(function() {
+    $('#loading-container').remove();
+  }, loadingTime);
   updateVals();
   p = new Player();
   p.place(lvl.pcords[0], lvl.pcords[1]);
@@ -625,7 +635,7 @@ $(document).ready(function() {
   if(lvl.instruct != '') {
     texty = new Text(lvl.instruct, lvl.instructX, lvl.instructY, 1);
     setTimeout(function() {texty.init()}, 1000);
-    textyRemove = setTimeout(function() {texty.remove()}, 10000);
+    textyRemove = setTimeout(function() {texty.remove()}, 100000);
   };
   pend = new Pend(endc[0], endc[1]);
   $('#msg').html('');

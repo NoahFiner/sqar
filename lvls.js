@@ -68,7 +68,7 @@ lvls.push(l16);
 l17 = new Level(10, [6, 2], [[1, 4], [7, 0], [9, 4]], [[4, 4], [4, 2], [8, 1], [8, 2]], 'player-end', [0, 0]);
 l17.addInstruction("eek! three enemies! harder and harder, huh?", 6, 3);
 lvls.push(l17);
-l18 = new Level(10, [9, 0], [[8, 1], [3, 4]], [[1, 0], [1, 1], [1, 3], [1, 4], [3, 0], [4, 4]], 'player-end', [0, 3]);
+l18 = new Level(10, [9, 0], [[8, 1], [0, 0]], [[1, 0], [1, 1], [1, 3], [1, 4], [3, 0], [4, 4], [4, 3]], 'player-end', [0, 4]);
 lvls.push(l18);
 l19 = new Level(10, [0, 2], [[9, 1], [9, 3]], [[8, 1], [8, 2], [8, 3], [2, 2]], 'player-end', [9, 2]);
 l19.addInstruction("well, good luck with this one<br>I guess remember to not get too frustrated with the random AI.", 0, 4);
