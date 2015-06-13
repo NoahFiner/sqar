@@ -465,7 +465,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.y -= dist;
       this.update();
     }
-    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(270deg)"});
+    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(0deg)"});
   }
   this.down = function(dist) {
     if(this.y + dist >= maxY) {
