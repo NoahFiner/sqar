@@ -76,3 +76,5 @@ lvls.push(l19);
 l20 = new Level(10, [0, 2], [[9, 1], [9, 2], [9, 3]], [[8, 1], [8, 2], [8, 3], [8, 4], [2, 2], [4, 2]], 'player-end', [9, 4]);
 l20.addInstruction("that last level was just a training level");
 lvls.push(l20);
+l21 = new Level(10, [3, 2], [[1, 4], [5, 0]], [[0, 4], [0, 3], [1, 3], [2, 1], [2, 3], [3, 1], [4, 1], [4, 2], [4, 3], [4, 4]], 'player-end', [9, 2]);
+lvls.push(l21);

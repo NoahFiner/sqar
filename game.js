@@ -9,7 +9,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 //None game variables
-loadingTime = 5500;
+loadingTime = 0 //5500 for non-development;
 
 //Initalizing variables
 var lvl = l1;
@@ -363,7 +363,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.num = num;
   this.x = 0;
   this.y = 0;
-  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'></div></div>"
+  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
   this.speed = 1;
   this.init = function() {
     this.remove();
@@ -437,6 +437,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.x -= dist;
       this.update();
     }
+    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(270deg)"});
   }
   this.right = function(dist) {
     if(this.x + dist >= maxX) {
@@ -450,6 +451,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.x += dist;
       this.update();
     }
+    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(90deg)"});
   }
   this.up = function(dist) {
     if(this.y - dist <= 0) {
@@ -463,6 +465,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.y -= dist;
       this.update();
     }
+    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(270deg)"});
   }
   this.down = function(dist) {
     if(this.y + dist >= maxY) {
@@ -476,6 +479,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.y += dist;
       this.update();
     }
+    $('#enemy-arrow'+this.num).css("transform", "translate(-50%, -50%) rotate(180deg)");
   }
 }
 
