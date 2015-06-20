@@ -153,29 +153,35 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(0deg);
+  -webkit-transform: translate(-50%, -50%), rotate(0deg);
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 0 15px 26.0px 15px;
   border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent;
-  transition: transform 0.1s;
+  transition: transform, -webkit-transform 0.1s;
+  -webkit-transition: transform, -webkit-transform 0.1s;
 }
 
 
 .arr-up {
   transform: translate(-50% -50%) rotate(0deg);
+  -webkit-transform: translate(-50%, -50%) rotate(0deg);
 }
 
 .arr-right {
   transform: translate(-50% -50%) rotate(90deg);
+  -webkit-transform: translate(-50%, -50%) rotate(90deg);
 }
 
 .arr-down {
   transform: translate(-50% -50%) rotate(180deg);
+  -webkit-transform: translate(-50%, -50%) rotate(180deg);
 }
 
 .arr-left {
   transform: translate(-50% -50%) rotate(270deg);
+  -webkit-transform: translate(-50%, -50%) rotate(270deg);
 }
 
 .column {
