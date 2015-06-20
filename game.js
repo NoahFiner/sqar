@@ -9,7 +9,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 //None game variables
-loadingTime = 500 //5500 for non-development;
+loadingTime = 5500 //5500 for non-development;
 
 //Initalizing variables
 var lvl = l1;
