@@ -80,6 +80,17 @@ body {
   width:100%;
 }
 
+#game-background {
+  background: -moz-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+  background: linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
 #header-container, #game-container {
   display:inline-block;
   position:absolute;
@@ -133,6 +144,21 @@ body {
   margin: 0 0 0 0;
   background-color: blue;
   border: 1px solid blue;
+}
+
+.shadow {
+  z-index:-99987345069734598679;
+  height:200%;
+  width:200%;
+  float:right;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.wall-shadow {
+  display:inline-block;
+  position:absolute;
+  margin: 0;
 }
 
 .enemy {
@@ -377,6 +403,7 @@ h6 {
 }
 
 .wall {
+  z-index: 1002;
   margin:0;
   position:absolute;
   display:inline-block;
@@ -406,6 +433,19 @@ h6 {
   outline-color: #B9B9B9;
   outline-width: 1px;
   border: 1px solid #B9B9B9;
+  -webkit-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+  -moz-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+  box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+}
+
+#pend-gradient {
+  background: -moz-linear-gradient(45deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
+  background: linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .instruction {
@@ -417,6 +457,7 @@ h6 {
   color:white;
   text-shadow: 0 0 5px #000;
   opacity: 0;
+  z-index:100000093287594237509284375982743905780934;
 }
 
 .explosion {
