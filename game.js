@@ -9,7 +9,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 //None game variables
-loadingTime = 5500 //5500 for non-development;
+loadingTime = 500 //5500 for non-development;
 
 //Initalizing variables
 var lvl = l1;
@@ -102,6 +102,8 @@ var updateVals = function() {
   $('.enemy').width(cellWidth + 1);
   $('.wall').height(cellHeight);
   $('.wall').width(cellWidth);
+  $('.wall-shadow').height(cellHeight*2);
+  $('.wall-shadow').width(cellWidth*2);
   $('#pend').width(cellWidth);
   $('#pend').height(cellHeight);
 }
@@ -112,7 +114,7 @@ var updateVals = function() {
 var Player = function() {
   this.x = 0;
   this.y = 0;
-  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'></div></div>"
+  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><img class='shadow' id='p-shadow' src='shadow-bottomleft.png'/></div></div>"
   this.speed = speed;
   this.speed1 = this.speed + 1;
   this.id = '#player';
@@ -137,6 +139,7 @@ var Player = function() {
     explosion = new Explosion(this.x, this.y, 15, 25, '#51D41A', '#8EE668', '#6FDD41', '#37AF05', '#298A00');
     explosion.init();
     explosion.explode();
+    $('#p-shadow').css("opacity", "0");
     $(this.id).css("transform", "rotate(360deg)");
     $(this.id).css("-webkit-transform", "rotate(360deg)");
     $(this.id).css("z-index", 1000000000);
@@ -151,7 +154,7 @@ var Player = function() {
     $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
     var that = this;
     setTimeout(function() {$(that.id).fadeTo(250, 0);}, 750);
-    setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $(that.id).css("transform", "rotate(0deg)"); $(that.id).css("-webkit-transform", "rotate(0deg)");}, 1000);
+    setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $('#p-shadow').css("opacity", "0.5"); $(that.id).css("transform", "rotate(0deg)"); $(that.id).css("-webkit-transform", "rotate(0deg)");}, 1000);
   }
   this.remove = function() {
     $(this.id).remove();
@@ -254,13 +257,29 @@ var Wall = function(x, y, num) {
   this.num = num;
   this.id = 'wall'+this.num;
   this.html = "<div id='"+this.id+"' class='wall'><div id='wall"+this.num+"-mask' class='wall-mask background-full'></div>"
+  this.shadowsrc = 'shadow-bottomleft.png'
+  this.shadow = "<img src='"+this.shadowsrc+"' class='shadow wall-shadow' id='wall-shadow"+this.num+"'/>"
   this.type = 'wall';
+  this.updateshadows = function() {
+    if(checkForWall(this.x-1, this.y) != -1) {
+      this.shadowsrc = 'shadow-bottom.png';
+    }
+    if(checkForWall(this.x, this.y-1) != -1) {
+      this.shadowsrc = 'shadow-left.png';
+    }
+    $('#wall-shadow'+this.num).attr("src", this.shadowsrc);
+  }
   this.update = function() {
     $('#'+this.id).css("margin-left", this.x*actW);
     $('#'+this.id).css("margin-top", this.y*actH);
+    $('#wall-shadow'+this.num).css("margin-left", this.x*actW - cellWidth);
+    $('#wall-shadow'+this.num).css("margin-top", this.y*actH);
+    var that = this;
+    setTimeout(function() {that.updateshadows()}, 10);
   }
   this.init = function() {
     $('#'+this.type+'-background').append(this.html);
+    $('#'+this.type+'-shadows').append(this.shadow);
     this.update();
   }
   this.init();
@@ -271,6 +290,7 @@ var Wall = function(x, y, num) {
   }
   this.remove = function() {
     $(this.id).remove();
+    $('.wall-shadow').remove();
   }
 }
 
@@ -280,7 +300,7 @@ var Wall = function(x, y, num) {
 var Pend = function(x, y) {
   this.x = x;
   this.y = y;
-  this.html = "<div id='pend'></div>";
+  this.html = "<div id='pend'><div id='pend-gradient' class='background-full'></div></div>";
   this.type = 'pend';
   this.update = function() {
     $('#pend').css("margin-left", this.x*actW);
@@ -363,7 +383,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.num = num;
   this.x = 0;
   this.y = 0;
-  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
+  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><img src='shadow-bottomleft.png' class='shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
   this.speed = 1;
   this.init = function() {
     this.remove();
@@ -465,7 +485,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.y -= dist;
       this.update();
     }
-    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(270deg)"});
+    $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(0deg)"});
   }
   this.down = function(dist) {
     if(this.y + dist >= maxY) {
@@ -540,6 +560,7 @@ var deleteGame = function() {
   delete p;
   setTimeout(function() {
     $('#player').remove();
+    $('.wall-shadow').remove();
   }, 100);
   ec = [];
   gameActive = false;
