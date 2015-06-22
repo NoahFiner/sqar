@@ -5,6 +5,7 @@
     <script language="javascript" type="text/javascript" src="jquery.js"></script>
     <script language="javascript" type="text/javascript" src="jqueryui.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css"></link>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <script language="javascript" type="text/javascript" src="lvls.js"></script>
     <script language="javascript" type="text/javascript" src="game.js"></script>
     <script language="javascript" type="text/javascript" src="ui.js"></script>
@@ -33,10 +34,13 @@
         <div id="header-content">
           <div style="margin: 0; padding: 25px;">
             <p>developed by Noah, sqar is the long-awaited (by no one) sequel to <a href="http://noahfiner.github.io">sqr</a>.</p>
+            <h3 id="message"></h3>
             <h2 id="playbutton">click here to play!</h2>
-            <h6>select level</h6>
+            <h6 id="level-header">select level &#8861;</h6>
           </div>
-          <div id="levels">
+          <div id="levels-superouter">
+            <div id="levels">
+            </div>
           </div>
         </div>
       </div>
@@ -49,15 +53,15 @@
             <div id="columns" class="background-full">
             </div>
           </div>
-          <div id="wall-shadows" style="overflow: hidden" class="background-full">
+          <div id="player-background" class="background-full">
+          </div>
+          <div id="enemy-background" class="background-full">
+          </div>
+          <div id="wall-shadows" class="background-full">
           </div>
           <div id="pend-background" class="background-full">
           </div>
           <div id="wall-background" class="background-full">
-          </div>
-          <div id="player-background" class="background-full">
-          </div>
-          <div id="enemy-background" class="background-full">
           </div>
           <div id="explosion-background" class="background-full">
           </div>

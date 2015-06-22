@@ -43,6 +43,9 @@ var speed = 1;
 
 var gameActive = false;
 
+var winText = ["you rocked that level!", "great job!", "whoah! nice moves!", "wow!", "that level was easy, wasn't it?", "you taught those red squares a lesson!", "those red squares had no chance", "the developer had trouble on that one!", "excellent work!", "that level was as easy as your mom"];
+var loseText = ["ha rekt", "well, that didn't work", "you got a gold star with 'you tried' on it.", "my mom could have done that better", "the developer coded that to be easy", "why did you move there???", "you had no chance", "you had so much potential. jk", "well, at least the red squares are less hungry.", "that explosion at the end was cool, right?", "this was actually supposed to be a replacement for level 1...", "fun fact: watching you fail is fun."];
+
 lvlnum = 0;
 
 var initVars = function() {
@@ -102,11 +105,12 @@ var updateVals = function() {
   $('.enemy').width(cellWidth + 1);
   $('.wall').height(cellHeight);
   $('.wall').width(cellWidth);
-  $('.wall-shadow').height(cellHeight*2);
-  $('.wall-shadow').width(cellWidth*2);
+  $('.wall-shadow').height(cellHeight*2 + 5);
+  $('.wall-shadow').width(cellWidth*2 + 3 );
   $('#pend').width(cellWidth);
   $('#pend').height(cellHeight);
 }
+updateVals();
 
 
 //Player!
@@ -114,7 +118,7 @@ var updateVals = function() {
 var Player = function() {
   this.x = 0;
   this.y = 0;
-  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><img class='shadow' id='p-shadow' src='shadow-bottomleft.png'/></div></div>"
+  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><div class='square-gradient'></div><img class='shadow' id='p-shadow' src='shadow-bottomleft.png'/></div></div>"
   this.speed = speed;
   this.speed1 = this.speed + 1;
   this.id = '#player';
@@ -130,12 +134,16 @@ var Player = function() {
     this.init();
   }
   this.die = function() {
+    $('#message').html(loseText[Math.floor(Math.random()*loseText.length)]+"<br>hit the button below to try again.");
+    $('#message').css('color', 'red');
     explosion = new Explosion(this.x, this.y, 15, 25, 'red', 'red', 'black', 'orange', 'yellow');
     explosion.init();
     explosion.explode();
     deleteGame();
   }
   this.win = function() {
+    $('#message').html(winText[Math.floor(Math.random()*winText.length)]+"<br>click play to try the next level");
+    $('#message').css('color', 'green');
     explosion = new Explosion(this.x, this.y, 15, 25, '#51D41A', '#8EE668', '#6FDD41', '#37AF05', '#298A00');
     explosion.init();
     explosion.explode();
@@ -261,12 +269,38 @@ var Wall = function(x, y, num) {
   this.shadow = "<img src='"+this.shadowsrc+"' class='shadow wall-shadow' id='wall-shadow"+this.num+"'/>"
   this.type = 'wall';
   this.updateshadows = function() {
-    if(checkForWall(this.x-1, this.y) != -1) {
+    this.shadowsrc = 'wallshadow-bottomleft-nowall.png';
+    if((checkForWall((this.x-1, this.y) != -1) || (checkForWall(this.x+1, this.y) != -1)) && (checkForWall(this.x, this.y+1) === -1)) {
       this.shadowsrc = 'shadow-bottom.png';
+      if(checkForWall(this.x+1, this.y) === -1) {
+        this.shadowsrc = 'wallshadow-bottomleft.png';
+      }
+      if(checkForWall(this.x-1, this.y) === -1) {
+        this.shadowsrc = 'shadow-bottom-nowall.png';
+      }
     }
-    if(checkForWall(this.x, this.y-1) != -1) {
+    if(((checkForWall(this.x, this.y-1) != -1) || (checkForWall(this.x, this.y+1) != -1)) && (checkForWall(this.x-1, this.y) === -1)) {
       this.shadowsrc = 'shadow-left.png';
+      if(checkForWall(this.x, this.y-1) === -1) {
+        this.shadowsrc = 'wallshadow-bottomleft.png';
+      }
+      if(checkForWall(this.x, this.y+1) === -1) {
+        this.shadowsrc = 'shadow-left-nowall.png';
+      }
     }
+    if(((checkForWall(this.x, this.y-1) === -1) && (checkForWall(this.x, this.y+1) === -1) && (checkForWall(this.x-1, this.y) === -1) && (checkForWall(this.x+1, this.y) === -1))) {
+      this.shadowsrc = 'wallshadow-bottomleft.png';
+      if(checkForWall(this.x-1, this.y+1) === -1) {
+        this.shadowsrc = 'wallshadow-bottomleft-nowall.png';
+      }
+    }
+    if((checkForWall(this.x+1, this.y) != -1) && checkForWall(this.x, this.y-1) != -1) {
+      this.shadowsrc = 'shadow-everywhere.png';
+    }
+
+    // if(checkForWall(this.x, this.y+1) === -1 && checkForWall(this.x, this.y-1) != -1) {
+    //   this.shadowsrc = 'shadow-bottomleft.png';
+    // }
     $('#wall-shadow'+this.num).attr("src", this.shadowsrc);
   }
   this.update = function() {
@@ -274,6 +308,10 @@ var Wall = function(x, y, num) {
     $('#'+this.id).css("margin-top", this.y*actH);
     $('#wall-shadow'+this.num).css("margin-left", this.x*actW - cellWidth);
     $('#wall-shadow'+this.num).css("margin-top", this.y*actH);
+    if(this.x === 0 && this.y === 0) {
+      $('#wall-shadow'+this.num).css("margin-left", -cellWidth + 'px');
+      $('#wall-shadow'+this.num).css("margin-top", 0);
+    }
     var that = this;
     setTimeout(function() {that.updateshadows()}, 10);
   }
@@ -383,7 +421,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.num = num;
   this.x = 0;
   this.y = 0;
-  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><img src='shadow-bottomleft.png' class='shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
+  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div class='square-gradient'></div><img src='shadow-bottomleft.png' class='shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
   this.speed = 1;
   this.init = function() {
     this.remove();
@@ -618,7 +656,7 @@ var initGame = function() {
     textyRemove = setTimeout(function() {texty.remove()}, 10000);
   };
   $('#msg').html('');
-  setTimeout(function() {$('#playbutton').html('click to reset');}, 500);
+  setTimeout(function() {$('#playbutton').html('click to reset');$('#message').html('')}, 500);
   state = 'up';
   toggleHeader();
   updateVals();
