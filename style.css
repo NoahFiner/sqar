@@ -32,7 +32,7 @@ body {
   width:101%;
   margin-left:-1%;
   margin-top:-1%;
-  z-index:10334295872398750923000;
+  z-index:10300;
   pointer-events:none;
 }
 
@@ -59,7 +59,7 @@ body {
 
 #loading-container {
   pointer-events:auto;
-  z-index:10000000000000000000;
+  z-index:1000000025348923429857239759237958234795834000000000000;
   background-color:black;
   height:101%;
   width:101%;
@@ -78,9 +78,6 @@ body {
 #game-container-outer {
   height:100%;
   width:100%;
-}
-
-#game-background {
   background: -moz-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
@@ -124,7 +121,7 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-  border: 1px solid #E2E2E2;
+  border: 2px solid #E8E8E8;
 }
 
 .row {
@@ -132,8 +129,17 @@ body {
   width:100%;
   display:block;
   margin: 0 0 0 0;
-  background-color:#E2E2E2;
+  background-color:#E8E8E8;
+  opacity: 0.3;
   position:relative;
+}
+
+#rows {
+  opacity: 0.1;
+}
+
+#columns {
+  opacity: 0.1;
 }
 
 #player {
@@ -159,6 +165,7 @@ body {
   display:inline-block;
   position:absolute;
   margin: 0;
+  z-index:10;
 }
 
 .enemy {
@@ -213,10 +220,11 @@ body {
 .column {
   height:100%;
   width:1px;
-  background-color:#E2E2E2;
+  background-color:#E8E8E8;
   margin: 0 0 0 0;
   display:inline-block;
   position:relative;
+  opacity: 0.3;
 }
 
 h1 {
@@ -320,6 +328,12 @@ h2 {
   color: white;
 }
 
+h3 {
+  font-size: 50px;
+  font-weight: bolder;
+  color: red;
+}
+
 h1.ultra {
   font-size:200px;
   text-align:center;
@@ -334,9 +348,25 @@ h6 {
 #levels {
   width: 80%;
   position:relative;
-  height: 80%;
+  height: 600px;
   margin-left:auto;
   margin-right:auto;
+  pointer-events: auto;
+  overflow: hidden;
+  transition: height 0.25s;
+  -webkit-transition: height 0.25s;
+}
+
+#levels-superouter {
+  height: 600px;
+  width: 100%;
+  pointer-events: auto;
+  
+}
+
+#levels.collapsed {
+  height: 0px;
+  pointer-events: none;
 }
 
 .lvl-outer {
@@ -385,25 +415,26 @@ h6 {
   cursor:copy;
 }
 
-#playbutton {
+#playbutton, #level-header {
   border: 1px solid white;
   border-radius:20px;
+  width: auto;
   background-color: transparent;
   transition: background-color 0.25s;
   -webkit-transition: background-color 0.25s;
   cursor:pointer;
 }
 
-#playbutton:hover {
+#playbutton:hover, #level-header:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-#playbutton:active {
+#playbutton:active, #level-header:active {
   background-color: rgba(255, 255, 255, 1);
 }
 
 .wall {
-  z-index: 1002;
+  z-index: 10000;
   margin:0;
   position:absolute;
   display:inline-block;
@@ -412,7 +443,7 @@ h6 {
   -webkit-transform: rotate(0deg);
   transition: transform 0.25s, -webkit-transform 0.25s;
   -webkit-transdition: transform 0.25s, -webkit-transform 0.25s;
-  border: 1px solid #B9B9B9;
+  border: 1px solid gray;
 }
 
 .wall.hit {
@@ -433,19 +464,27 @@ h6 {
   outline-color: #B9B9B9;
   outline-width: 1px;
   border: 1px solid #B9B9B9;
-  -webkit-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
-  -moz-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
-  box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
+  -moz-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
+  box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
 }
 
-#pend-gradient {
-  background: -moz-linear-gradient(45deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
-  background: linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+.square-gradient {
+  opacity: 0.4;
+}
+
+#pend-gradient, .square-gradient {
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  background: -moz-linear-gradient(45deg,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+  background: linear-gradient(45deg,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .instruction {
@@ -457,7 +496,7 @@ h6 {
   color:white;
   text-shadow: 0 0 5px #000;
   opacity: 0;
-  z-index:100;
+  z-index:10000;
 }
 
 .explosion {

@@ -30,6 +30,10 @@ $(document).ready(function() {
   $('.lvl-outer').css('margin-right', lvlMargin+'px');
   $('#lvl-outer1').addClass('selected');
 
+  $('#level-header').click(function() {
+    toggleLevels();
+  })
+
   $('.lvl-outer').click(function() {
     if(lvlselect) {
       $('.lvl-outer').removeClass('selected');
@@ -54,6 +58,21 @@ $(document).ready(function() {
     toggleHeader();
   })
 });
+
+
+lvlExpanded = true;
+var toggleLevels = function() {
+  if(lvlExpanded) {
+    lvlExpanded = false;
+    $('#levels').addClass('collapsed');
+    $('#level-header').html('select level &#8861;')
+  }
+  else {
+    lvlExpanded = true;
+    $('#levels').removeClass('collapsed');
+    $('#level-header').html('select level &#8853;')
+  }
+}
 
 var toggleHeader = function() {
   if(state === 'up') {
