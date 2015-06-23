@@ -89,10 +89,11 @@ var initsizes = function() {
 }
 
 var updateVals = function() {
-  var height = $('#columns').height();
-  var width = $('#columns').width();
+  var width = $('#game-background').width();
+  var height = width/2;
+  $('#game-background').height(height+' !important');
   $('#game-container').width(width); //weird stuff with corners and crap
-  $('#game-container').height(height);
+  $('#game-container').height(height + 2);
   cellWidth = width/amtOfCols - 1;
   cellHeight = height/amtOfRows - 1;
   actW = cellWidth + 1;
@@ -105,8 +106,8 @@ var updateVals = function() {
   $('.enemy').width(cellWidth + 1);
   $('.wall').height(cellHeight);
   $('.wall').width(cellWidth);
-  $('.wall-shadow').height(cellHeight*2 + 5);
-  $('.wall-shadow').width(cellWidth*2 + 3 );
+  $('.wall-shadow').height(cellHeight*2 + 3);
+  $('.wall-shadow').width(cellWidth*2 + 3);
   $('#pend').width(cellWidth);
   $('#pend').height(cellHeight);
 }

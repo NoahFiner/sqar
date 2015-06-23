@@ -69,6 +69,7 @@ l17 = new Level(10, [6, 2], [[1, 4], [7, 0], [9, 4]], [[4, 4], [4, 2], [8, 1], [
 l17.addInstruction("eek! three enemies! harder and harder, huh?", 6, 3);
 lvls.push(l17);
 l18 = new Level(10, [9, 0], [[8, 1], [0, 0]], [[1, 0], [1, 1], [1, 3], [1, 4], [3, 0], [4, 4], [4, 3]], 'player-end', [0, 4]);
+l18.addInstruction("having untrapped enemies when trying to fish out another enemy is never a good idea", 2, 1);
 lvls.push(l18);
 l19 = new Level(10, [0, 2], [[9, 1], [9, 3]], [[8, 1], [8, 2], [8, 3], [2, 2]], 'player-end', [9, 2]);
 l19.addInstruction("well, good luck with this one<br>I guess remember to not get too frustrated with the random AI.", 0, 4);
@@ -85,3 +86,19 @@ l23 = new Level(10, [0, 0], [[2, 2], [7, 2]], [[1, 1], [1, 2], [2, 1], [8, 1], [
 lvls.push(l23);
 l24 = new Level(6, [5, 2], [[1, 1], [3, 2]], [[2, 1], [4, 1]], 'player-end', [0, 2]);
 lvls.push(l24);
+l25 = new Level(12, [2, 5], [[4, 1], [4, 4], [7, 4]], [[4, 0], [4, 2], [4, 3], [4, 5], [6, 4], [9, 2]], 'player-end', [8, 2]);
+l25.addInstruction("now the levels will get hard. good luck!", 7, 0);
+lvls.push(l25);
+l26 = new Level(12, [2, 3], [[0, 3], [4, 3], [9, 1]], [[5, 2], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [2, 0], [0, 2], [1, 2], [0, 4], [1, 4]], 'player-end', [11, 5]);
+l26.addInstruction("just remember the trapping...<br>and the random luck of winning lol", 7, 0);
+lvls.push(l26);
+l27 = new Level(12, [0, 3], [[0, 5], [1, 4], [11, 4]], [[0, 4], [1, 3], [2, 2], [2, 1], [3, 1], [6, 3], [10, 3], [10, 4], [10, 5]], 'player-end', [11, 5]);
+lvls.push(l27);
+l28 = new Level(12, [0, 2], [[3, 0], [7, 5], [10, 0]], [[2, 0], [2, 1], [2, 2], [2, 3], [6, 4], [6, 5], [9, 0], [9, 1]], 'player-end', [11, 0]);
+lvls.push(l28);
+l29 = new Level(12, [0, 0], [[1, 1], [4, 2], [8, 4], [11, 4]], [[10, 1], [10, 2], [10, 3], [10, 4], [10, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [1, 2], [3, 2], [7, 5], [7, 4], [7, 3], [7, 2], [7, 1], [8, 3], [6, 3]], 'player-end', [11, 5]);
+lvls.push(l29);
+l29.addInstruction("you have fun with this monster", 4, 0);
+l30 = new Level(12, [4, 1], [[0, 5], [8, 4], [11, 1]], [[0, 3], [1, 3], [2, 3], [2, 2], [3, 2], [4, 2], [4, 3], [5, 3], [10, 0], [10, 1], [10, 2], [10, 3]], 'player-end', [11, 0]);
+l30.addInstruction("this guy will be a problem if he's not trapped", 1, 5);
+lvls.push(l30);
