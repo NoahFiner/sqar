@@ -45,6 +45,10 @@ body {
   margin-left:auto;
   margin-right:auto;
   background-color: blue;
+  background-image: url('loading.png');
+  background-size: cover;
+  background-position: 50% 50%;
+
   opacity: 1;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
@@ -104,15 +108,15 @@ body {
 
 #game-container {
   position:relative;
-  width:80%;
-  margin-left: 10%; /*should center this piece of crap*/
-  margin-top: 8%;
+  width:80% !important;
+  margin-left: 10% !important; /*should center this piece of crap*/
+  margin-top: 8% !important;
 }
 
 #game-container:before {
   content: "";
 	display: block;
-	padding-top: 50%;
+	padding-top: 50% !important;
 }
 
 #gamey {
@@ -361,7 +365,7 @@ h6 {
   height: 600px;
   width: 100%;
   pointer-events: auto;
-  
+
 }
 
 #levels.collapsed {
