@@ -605,7 +605,7 @@ var deleteGame = function() {
   gameActive = false;
   state = 'down';
   toggleHeader();
-  $('#msg').html('make a new game to play!');
+  setTimeout(function() {$('#msg').html('go to the main menu to start a new game!');}, 2000);
   $('#playbutton').html('click to play!');
 }
 
@@ -669,6 +669,7 @@ $(document).ready(function() {
   initsizes();
   drawGrid(amtOfCols, amtOfRows);
   $('#loading-square').addClass("load");
+  $('#loading-background-animated').addClass('load');
   setTimeout(function() {
     $('#loading-container').fadeTo(1000, 0);
   }, loadingTime - 1000);
