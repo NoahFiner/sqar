@@ -596,6 +596,7 @@ var drawGrid = function(colnum, rownum) {
 
 //Game controllers
 var deleteGame = function() {
+  $('#header-content').scrollTop(0);
   delete p;
   setTimeout(function() {
     $('#player').remove();
@@ -605,13 +606,16 @@ var deleteGame = function() {
   gameActive = false;
   state = 'down';
   toggleHeader();
-  setTimeout(function() {$('#msg').html('go to the main menu to start a new game!');}, 2000);
+  newgamemsg = setTimeout(function() {$('#msg').html('go to the main menu to start a new game!');}, 2000);
   $('#playbutton').html('click to play!');
 }
+
+var newgamemsg = setTimeout(function() {}, 134252345234523452345);
 
 var hi = 1;
 
 var initGame = function() {
+  clearTimeout(newgamemsg);
   lvlselect = false;
   $('.enemy').remove();
   $('.wall').remove();
