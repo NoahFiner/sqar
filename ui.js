@@ -47,15 +47,24 @@ $(document).ready(function() {
 
   //Header
 
-  $('#header-button').hover(function() {
-    $('#header-h1').addClass('active');
-    $('#header-button').addClass('active');
-  }, function() {
-    $('#header-h1').removeClass('active');
-    $('#header-button').removeClass('active');
-  });
-  $('#header-button').click(function() {
+
+  $('#mainmenu-link').click(function() {
     toggleHeader();
+  })
+  $('#levelselect-link, #info-link').click(function() {
+    state = 'down';
+    toggleHeader();
+  })
+  $('#header-h1').click(function() {
+    state = 'up';
+    toggleHeader();
+  })
+
+  $('#levelselect-link').click(function() {
+    $('#header-content').scrollTop(450);
+  })
+  $('#info-link').click(function() {
+    $('#header-content').scrollTop(1250);
   })
 });
 
@@ -77,12 +86,12 @@ var toggleLevels = function() {
 var toggleHeader = function() {
   if(state === 'up') {
     $('#header-content').removeClass('shown');
-    $('#header-button').html("back to menu &uarr;");
+    $('#mainmenu-link').html("back to menu");
     state = 'down';
   }
   else {
     $('#header-content').addClass('shown');
-    $('#header-button').html("back to game &darr;");
+    $('#mainmenu-link').html("back to game");
     if(gameActive) {
       $('.lvl-outer').removeClass('selectable');
       lvlselect = false;

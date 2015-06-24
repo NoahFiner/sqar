@@ -13,28 +13,33 @@
   <body class="full">
     <div id="everything">
       <div id="loading-container" class="background-full">
-        <h1 class='ultra'>sqar</h1>
-        <p>please note that sqar is still in development at the moment bugs will occur</p>
-        <p>due to still being in development, <span style="color: #FFBABA">sqar is not cross-browser tested and will only work on Google Chrome</span></p>
-        <p>try to also avoid resizing the window while playing the game</p>
-        <p style="font-size: 10px"><br><br>please wait...</p>
-        <div id="loading-square"></div>
+          <img src="pixelated-full-background.png" class="background-full" id="loading-background-animated"/>
+        <div id="loading-content">
+          <!-- <p style="font-size: 10px"><br><br>please wait...</p> -->
+          <!-- <div id="loading-square"></div> -->
+          <div id="loading-container-lower">
+            <img src="logo-nobackground.png" id="loading-logo"/>
+            <p>please note that sqar is still in development at the moment bugs will occur<br>due to still being in development, <span style="color: #FFBABA">sqar is not cross-browser tested and will only work on Google Chrome</span><br>try to also avoid resizing the window while playing the game<br></p>
+          </div>
+        </div>
       </div>
       <div id="header-container" class="full">
         <div id="header">
-          <div id="header-h1-div">
-            <h1 id="header-h1">sqar</h1>
-          </div>
-          <div id="header-button-div">
-            <div id="header-button-div-div"> <!--i'm so sorry-->
-              <h1 id="header-button">back to menu &uarr;</h1>
-            </div>
+          <img id="header-h1" src='logo-nobackground.png'/>
+          <div class="header-separator separator-large"></div>
+          <div id="header-links-floaty-div">
+            <a href='#' class="header-links" id="mainmenu-link">back to menu</a>
+            <div class="header-separator separator-tiny"></div>
+            <a class="header-links" id="levelselect-link">select a level</a>
+            <div class="header-separator separator-tiny"></div>
+            <a class="header-links" id="info-link">learn more</a>
+            <div class="header-separator separator-tiny"></div>
+            <a href='http://noahfiner.github.io' class="header-links" id="sqr-link">play sqr (the original version)</a>
           </div>
         </div>
         <div id="header-content">
           <div style="margin: 0; padding: 25px;">
-            <p>developed by Noah, sqar is the long-awaited (by no one) sequel to <a href="http://noahfiner.github.io">sqr</a>.</p>
-            <h3 id="message"></h3>
+            <h3 id="message"><br><br></h3>
             <h2 id="playbutton">click here to play!</h2>
             <h6 id="level-header">select level &#8861;</h6>
           </div>
@@ -42,6 +47,11 @@
             <div id="levels">
             </div>
           </div>
+          <div id="info">
+            <h4 id="info-header">info</h4>
+            <p>developed by Noah, sqar is the long-awaited (by no one) sequel to <a href="http://noahfiner.github.io">sqr</a>.</p>
+          </div>
+          <div id="stupid-placeholder-div-thing-wtf" style="width: 50px; height: 1000px"></div>
         </div>
       </div>
       <div id="game-container-outer" class="full">
