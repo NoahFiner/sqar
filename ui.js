@@ -35,14 +35,15 @@ $(document).ready(function() {
   })
 
   $('.lvl-outer').click(function() {
-    if(lvlselect) {
-      $('.lvl-outer').removeClass('selected');
-      $(this).addClass('selected');
-      lvlnum = ((Math.floor(($(this).attr('id'))[9]))*10 + (Math.floor(($(this).attr('id'))[10]))) + 1;
-      weirdlvlnum = $(this).attr('id')[9] + '' + $(this).attr('id')[10];
-      lvl = lvls[lvlnum - 1];
-      setLvlNum(lvlnum);
-    };
+    if(typeof p != "undefined") {
+      p.die();
+    }
+    $('.lvl-outer').removeClass('selected');
+    $(this).addClass('selected');
+    lvlnum = ((Math.floor(($(this).attr('id'))[9]))*10 + (Math.floor(($(this).attr('id'))[10]))) + 1;
+    weirdlvlnum = $(this).attr('id')[9] + '' + $(this).attr('id')[10];
+    lvl = lvls[lvlnum - 1];
+    setLvlNum(lvlnum);
   })
 
   //Header
@@ -66,8 +67,46 @@ $(document).ready(function() {
   $('#info-link').click(function() {
     $('#header-content').scrollTop(1250);
   })
+
+
+  //menu crap
+
+  $('#menu-menu').click(function() {
+    if(lvlwon) {
+      updateLevels(lvlnum + 1);
+    }
+    toggleHeader();
+  })
+  $('#menu-reset').click(function() {
+    lvlnum += 0
+    if(lvlwon) {
+      updateLevels(lvlnum);
+    }
+    lvl = lvls[lvlnum - 1];
+    toggleMenu();
+    initGame();
+  })
+  $('#menu-play').click(function() {
+    if(lvlwon) {
+      lvlnum += 1;
+      updateLevels(lvlnum);
+    }
+    lvl = lvls[lvlnum - 1];
+    toggleMenu();
+    initGame();
+  })
 });
 
+var updateLevels = function(lvlnum) {
+  var lvlnumRemain = lvlnum % 10;
+  weirdlvlnum = (Math.floor(lvlnum/10) + '' + lvlnumRemain);
+  var weirdlvlnumSub1 = (Math.floor((lvlnum - 1)/10) + '' + ((lvlnum - 1) % 10));
+  var weirdlvlnumSub2 = (Math.floor((lvlnum - 2)/10) + '' + ((lvlnum - 2) % 10));
+  lvl = lvls[lvlnum - 1];
+  $('#lvl-outer'+(weirdlvlnumSub2)).addClass('won');
+  $('.lvl-outer').removeClass('selected');
+  $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
+}
 
 lvlExpanded = true;
 var toggleLevels = function() {
@@ -84,6 +123,8 @@ var toggleLevels = function() {
 }
 
 var toggleHeader = function() {
+  menustate = 'hidden';
+  toggleMenu();
   if(state === 'up') {
     $('#header-content').removeClass('shown');
     $('#mainmenu-link').html("back to menu");
@@ -94,12 +135,37 @@ var toggleHeader = function() {
     $('#mainmenu-link').html("back to game");
     if(gameActive) {
       $('.lvl-outer').removeClass('selectable');
-      lvlselect = false;
     }
     else {
       $('.lvl-outer').addClass('selectable');
-      lvlselect = true;
     }
     state = 'up';
   }
 }
+
+var menustate = 'hidden';
+
+var toggleMenu = function() {
+  if(menustate === 'hidden') {
+    $('#menu-background').addClass('hidden');
+  }
+  else {
+    $('#menu-background').removeClass('hidden');
+  }
+}
+
+
+$(function() { // Smooth scrolling with the pages with the hashtag stuff. Idk why it works.
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 1000);
+        return false;
+      }
+    }
+  });
+});

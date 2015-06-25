@@ -1,5 +1,6 @@
 var Level = function(colnum, pcords, ecords, wcords, endType, endCoords) {
   this.cols = colnum;
+  this.highscore = 398245293723495870;
   this.rows = this.cols/2;
   this.pcords = pcords;
   this.enum = ecords.length;
