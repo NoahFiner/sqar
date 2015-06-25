@@ -14,7 +14,7 @@ loadingTime = 5500 //5500 for non-development;
 //Initalizing variables
 var lvl = l1;
 
-var lvlselect = false;
+var score = -1;
 
 var amtOfCols = lvl.cols;
 var amtOfRows = lvl.cols/2; // should be amtOfCols/2 for squares
@@ -50,7 +50,6 @@ lvlnum = 0;
 
 var initVars = function() {
   //Initalizing variables
-  lvlselect = false;
 
   amtOfCols = lvl.cols;
   amtOfRows = lvl.cols/2; // should be amtOfCols/2 for squares
@@ -113,7 +112,8 @@ var updateVals = function() {
 }
 updateVals();
 
-
+var lvlwon = false;
+var lvllost = false;
 //Player!
 
 var Player = function() {
@@ -127,6 +127,9 @@ var Player = function() {
   this.init = function() {
     $('#'+this.type+'-background').append(this.html);
     this.update();
+    score = 0;
+    $('#highscore').html("best: 0");
+    $('#score').html("moves: 0");
     pInit = true;
   }
   this.place = function(x, y) {
@@ -135,16 +138,38 @@ var Player = function() {
     this.init();
   }
   this.die = function() {
-    $('#message').html(loseText[Math.floor(Math.random()*loseText.length)]+"<br>hit the button below to try again.");
+    lvllost = true;
+    randLoseText = loseText[Math.floor(Math.random()*loseText.length)];
+    $('#message').html(randLoseText+"<br>hit the button below to try again.");
+    $('#menu-message').html(randLoseText+" - hit the left or middle button to try again.");
     $('#message').css('color', 'red');
+    $('#menu-message').css('color', 'red');
     explosion = new Explosion(this.x, this.y, 15, 25, 'red', 'red', 'black', 'orange', 'yellow');
     explosion.init();
     explosion.explode();
+    highscore = 0;
+    score = 0;
+    $('#highscore').html("best: "+lvl.highscore);
+    if(lvl.highscore === 398245293723495870) {
+      $('#highscore').html("best: 0");
+    }
+    else {
+      $('#highscore').html("best: "+lvl.highscore);
+    }
+    $('#score').html("moves: oops");
     deleteGame();
   }
   this.win = function() {
-    $('#message').html(winText[Math.floor(Math.random()*winText.length)]+"<br>click play to try the next level");
+    if(score < lvl.highscore) {
+      lvl.highscore = score;
+    }
+    lvlwon = true;
+    $('#highscore').html("best: "+lvl.highscore);
+    var winRandText = winText[Math.floor(Math.random()*winText.length)];
+    $('#message').html(winRandText+"<br>click play to try the next level");
+    $('#menu-message').html(winRandText+" - click the left button to try again or the middle one to continue")
     $('#message').css('color', 'green');
+    $('#menu-message').css('color', 'green');
     explosion = new Explosion(this.x, this.y, 15, 25, '#51D41A', '#8EE668', '#6FDD41', '#37AF05', '#298A00');
     explosion.init();
     explosion.explode();
@@ -152,15 +177,6 @@ var Player = function() {
     $(this.id).css("transform", "rotate(360deg)");
     $(this.id).css("-webkit-transform", "rotate(360deg)");
     $(this.id).css("z-index", 1000000000);
-    lvlnum += 1;
-    var lvlnumRemain = lvlnum % 10;
-    weirdlvlnum = (Math.floor(lvlnum/10) + '' + lvlnumRemain);
-    var weirdlvlnumSub1 = (Math.floor((lvlnum - 1)/10) + '' + ((lvlnum - 1) % 10));
-    var weirdlvlnumSub2 = (Math.floor((lvlnum - 2)/10) + '' + ((lvlnum - 2) % 10));
-    lvl = lvls[lvlnum - 1];
-    $('#lvl-outer'+(weirdlvlnumSub2)).addClass('won');
-    $('.lvl-outer').removeClass('selected');
-    $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
     var that = this;
     setTimeout(function() {$(that.id).fadeTo(250, 0);}, 750);
     setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $('#p-shadow').css("opacity", "0.5"); $(that.id).css("transform", "rotate(0deg)"); $(that.id).css("-webkit-transform", "rotate(0deg)");}, 1000);
@@ -169,6 +185,14 @@ var Player = function() {
     $(this.id).remove();
   }
   this.update = function() {
+    score += 1;
+    $('#score').html('moves: '+score);
+    if(score < lvl.highscore) {
+      highscore = score;
+    }
+    if(lvl.highscore === 398245293723495870 || lvl.highscore ===  0) {
+      $('#highscore').html('best: '+highscore);
+    }
     $(this.id).css("margin-left", this.x*actW);
     $(this.id).css("margin-top", this.y*actH);
     if(checkForEnemy(this.x, this.y)) {
@@ -593,19 +617,32 @@ var drawGrid = function(colnum, rownum) {
 }
 
 
-
+var highscore = 0;
 //Game controllers
 var deleteGame = function() {
-  $('#header-content').scrollTop(0);
+  if(lvlwon) {
+    lvl.highscore = highscore;
+    $('#highscore').html('best: '+lvl.highscore);
+  }
+  score = 0;
+  $('#header-content').animate({scrollTop: 0}, 250);
   delete p;
   setTimeout(function() {
     $('#player').remove();
-    $('.wall-shadow').remove();
   }, 100);
+  setTimeout(function() {
+    $('.wall-shadow').remove();
+  }, 500)
   ec = [];
   gameActive = false;
-  state = 'down';
-  toggleHeader();
+  if(state === 'down') {
+    state = 'down';
+    menustate = 'shown';
+    setTimeout(function() {toggleMenu();}, 500);
+  }
+  else {
+    menustate = 'hidden';
+  }
   newgamemsg = setTimeout(function() {$('#msg').html('go to the main menu to start a new game!');}, 2000);
   $('#playbutton').html('click to play!');
 }
@@ -616,11 +653,12 @@ var hi = 1;
 
 var initGame = function() {
   clearTimeout(newgamemsg);
-  lvlselect = false;
   $('.enemy').remove();
   $('.wall').remove();
   $('#pend').remove();
   $('.instruction').remove();
+  lvlwon = false;
+  lvllost = false;
   ws = [];
   es = [];
   wc = [];
@@ -639,6 +677,12 @@ var initGame = function() {
   p = new Player();
   p.place(lvl.pcords[0], lvl.pcords[1]);
   $(p.id).css("opacity", 1);
+  score = 0;
+  highscore = lvl.highscore;
+  $('#highscore').html('best: '+highscore);
+  if(lvl.highscore === 398245293723495870) {
+    $('#highscore').html('best: 0');
+  }
   // for(i = 0; i < amtOfEnemies; i++) {
   //   es[i] = new Enemy(i);
   //   var randX = Math.floor(Math.random()*amtOfCols);
@@ -712,10 +756,15 @@ $(document).ready(function() {
   $('#playbutton').click(function() {
     if(gameActive) {
       p.die();
-      lvlselect = true;
     }
     else {
-      initGame();
+      if(lvlwon) {
+        lvlnum += 1;
+        initGame();
+      }
+      else {
+        initGame();
+      }
     }
   })
   $(window).resize(function() {
@@ -728,7 +777,7 @@ $(document).ready(function() {
     var keyVal = parseInt(key.which,10);
     texty.remove();
     clearTimeout(textyRemove);
-    if((keyVal === 37 || keyVal ===  38 || keyVal ===  39 || keyVal === 40) && (gameActive) && (state === 'down')) {
+    if((keyVal === 37 || keyVal ===  38 || keyVal ===  39 || keyVal === 40) && (gameActive) && (state === 'down') && (lvlwon === false) && (lvllost === false)) {
       if(checkForEnemy(p.x, p.y)) {
         p.die();
       }

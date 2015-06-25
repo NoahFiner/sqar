@@ -23,10 +23,30 @@
           </div>
         </div>
       </div>
+      <div id="menu-background" class="background-full hidden">
+        <div id="quick-menu-outer">
+          <div id="menu-message">
+            <p id="menu-message" class="message"></p>
+          </div>
+          <div class="menu-divider">
+            <img src="menus/reset.png" class="menu-option" id="menu-reset"/>
+          </div>
+          <div class="menu-divider">
+            <img src="menus/play.png" class="menu-option" id="menu-play"/>
+          </div>
+          <div class="menu-divider">
+            <img src="menus/menu.png" class="menu-option" id="menu-menu"/>
+          </div>
+        </div>
+      </div>
       <div id="header-container" class="full">
         <div id="header">
           <img id="header-h1" src='logo-nobackground.png'/>
           <div class="header-separator separator-large"></div>
+          <div id="score-div">
+            <p id="score">moves: 0</p>
+            <p id="highscore">best: 0</p>
+          </div>
           <div id="header-links-floaty-div">
             <a href='#' class="header-links" id="mainmenu-link">back to menu</a>
             <div class="header-separator separator-tiny"></div>
@@ -39,7 +59,7 @@
         </div>
         <div id="header-content">
           <div style="margin: 0; padding: 25px;">
-            <h3 id="message"><br><br></h3>
+            <h3 id="message" class="message"><br><br></h3>
             <h2 id="playbutton">click here to play!</h2>
             <h6 id="level-header">select level &#8861;</h6>
           </div>
