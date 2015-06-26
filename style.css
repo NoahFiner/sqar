@@ -496,6 +496,7 @@ h1 {
   top: 50%;
   left: 50%;
   margin: -175px 0 0 -500px;
+  box-shadow: 0 0 20px 15px rgba(0, 0, 0, 0.8);
 }
 
 #menu-message {
@@ -536,18 +537,21 @@ h1 {
   margin-left:auto;
   margin-right: auto;
   cursor: pointer;
+  border: 5px solid #EBEBFF;
   opacity: 0.8;
+  box-shadow: 0 0 0px 0px #EBEBFF;
   transform-origin: 50% 50%;
   transform: scale(1);
   -webkit-transform-origin: 50% 50%;
   -webkit-transform: scale(1);
   -ms-transform-origin: 50% 50%;
   -ms-transform: scale(1);
-  transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s;
-  -webkit-transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s;
+  transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s, box-shadow 0.25s;
+  -webkit-transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s, box-shadow 0.25s;
 }
 
 .menu-option:hover {
+  box-shadow: 0 0 10px 0px #EBEBFF;
   opacity: 1;
   transform: scale(1.1);
   -webkit-transform: scale(1.1);
