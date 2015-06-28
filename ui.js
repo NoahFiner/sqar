@@ -2,6 +2,7 @@ var state = 'down';
 var lvl;
 var lvlnum = 1;
 var weirdlvlnum = 00;
+var audio;
 
 $(document).ready(function() {
   //Level grid
@@ -31,10 +32,12 @@ $(document).ready(function() {
   $('#lvl-outer1').addClass('selected');
 
   $('#level-header').click(function() {
+    clickSomething();
     toggleLevels();
   })
 
   $('.lvl-outer').click(function() {
+    clickSomething();
     if(typeof p != "undefined") {
       p.die();
     }
@@ -50,13 +53,16 @@ $(document).ready(function() {
 
 
   $('#mainmenu-link').click(function() {
+    clickSomething();
     toggleHeader();
   })
-  $('#levelselect-link, #info-link').click(function() {
+  $('#levelselect-link, #info-link, #options-link').click(function() {
+    clickSomething();
     state = 'down';
     toggleHeader();
   })
   $('#header-h1').click(function() {
+    clickSomething();
     state = 'up';
     toggleHeader();
   })
@@ -64,8 +70,24 @@ $(document).ready(function() {
   $('#levelselect-link').click(function() {
     $('#header-content').scrollTop(450);
   })
-  $('#info-link').click(function() {
+  $('#options-link').click(function() {
     $('#header-content').scrollTop(1250);
+  })
+  $('#info-link').click(function() {
+    $('#header-content').scrollTop(1750);
+  })
+
+  $('#audio-circle').click(function() {
+    clickSomething();
+    toggleAudio();
+  })
+  $('#shadow-circle').click(function() {
+    clickSomething();
+    toggleShadows();
+  })
+  $('#arrow-circle').click(function() {
+    clickSomething();
+    toggleArrows();
   })
 
 
@@ -76,6 +98,7 @@ $(document).ready(function() {
       updateLevels(lvlnum + 1);
     }
     toggleHeader();
+    clickSomething();
   })
   $('#menu-reset').click(function() {
     lvlnum += 0
@@ -84,6 +107,7 @@ $(document).ready(function() {
     }
     lvl = lvls[lvlnum - 1];
     toggleMenu();
+    clickSomething();
     initGame();
   })
   $('#menu-play').click(function() {
@@ -93,6 +117,7 @@ $(document).ready(function() {
     }
     lvl = lvls[lvlnum - 1];
     toggleMenu();
+    clickSomething();
     initGame();
   })
 });
@@ -106,6 +131,44 @@ var updateLevels = function(lvlnum) {
   $('#lvl-outer'+(weirdlvlnumSub2)).addClass('won');
   $('.lvl-outer').removeClass('selected');
   $('#lvl-outer'+(weirdlvlnumSub1)).addClass('selected');
+}
+
+var toggleAudio = function() {
+  if(audio) {
+    audio = false;
+    $('#audio-circle').removeClass('on');
+  }
+  else {
+    audio = true;
+    $('#audio-circle').addClass('on');
+  }
+}
+
+var toggleShadows = function() {
+  if(shadows) {
+    shadows = false;
+    $('.shadow').fadeTo(1000, 0);
+    $('#shadow-circle').removeClass('on');
+  }
+  else {
+    shadows = true;
+    $('.shadow').fadeTo(1000, 0.5);
+    $('.wall-shadow').css("opacity", "1");
+    $('#shadow-circle').addClass('on');
+  }
+}
+
+var toggleArrows = function() {
+  if(arrows) {
+    arrows = false;
+    $('.arrow').css("opacity", "0");
+    $('#arrow-circle').removeClass('on');
+  }
+  else {
+    arrows = true;
+    $('.arrow').css("opacity", "1");
+    $('#arrow-circle').addClass('on');
+  }
 }
 
 lvlExpanded = true;

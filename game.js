@@ -11,8 +11,16 @@ window.addEventListener("keydown", function(e) {
 //None game variables
 loadingTime = 5500 //5500 for non-development;
 
+var audio = true;
+
+var shadows = true;
+
+var arrows = true;
+
 //Initalizing variables
 var lvl = l1;
+
+var shadowsInit = false;
 
 var score = -1;
 
@@ -139,6 +147,10 @@ var Player = function() {
   }
   this.die = function() {
     lvllost = true;
+    if(lvlwon === false) {
+      createAudio("death");
+      setTimeout(function() {deleteAudio("death")}, 5000);
+    }
     randLoseText = loseText[Math.floor(Math.random()*loseText.length)];
     $('#message').html(randLoseText+"<br>hit the button below to try again.");
     $('#menu-message').html(randLoseText+" - hit the left or middle button to try again.");
@@ -160,11 +172,15 @@ var Player = function() {
     deleteGame();
   }
   this.win = function() {
-    if(score < lvl.highscore) {
-      lvl.highscore = score;
-    }
+    setTimeout(function() {
+      if(score < lvl.highscore) {
+        lvl.highscore = score;
+      }
+      $('#highscore').html("best: "+lvl.highscore);
+    }, 100);
     lvlwon = true;
-    $('#highscore').html("best: "+lvl.highscore);
+    createAudio("win");
+    setTimeout(function() {deleteAudio("win")}, 2250);
     var winRandText = winText[Math.floor(Math.random()*winText.length)];
     $('#message').html(winRandText+"<br>click play to try the next level");
     $('#menu-message').html(winRandText+" - click the left button to try again or the middle one to continue")
@@ -205,6 +221,11 @@ var Player = function() {
     }
     if(checkForPend(this.x, this.y)) {
       this.win();
+    }
+    else {
+      var randNum = Math.floor(Math.random()*5);
+      createAudio('pmove'+randNum);
+      setTimeout(function() {deleteAudio('pmove'+randNum)}, 750);
     }
   }
   this.left = function(dist) {
@@ -349,7 +370,11 @@ var Wall = function(x, y, num) {
   this.hit = function() {
     $('#'+this.id).addClass("hit");
     var that = this;
-    setTimeout(function() {$('#'+that.id).removeClass("hit")}, 75)
+    setTimeout(function() {$('#'+that.id).removeClass("hit")}, 75);
+    setTimeout(function() {
+      createAudio('wallhit');
+      setTimeout(function() {deleteAudio('wallhit')}, 750);
+    }, 50);
   }
   this.remove = function() {
     $(this.id).remove();
@@ -581,7 +606,9 @@ var checkForWall = function(x, y) {
   for(i = 0; i < wc.length; i++) {
     if((wc[i][0] === x) && (wc[i][1] === y)) {
       response = i; // returns wall collision number, allowing for varying speeds to subtract from the wall's coords
-      ws[i].hit();
+      if(shadowsInit) {
+        ws[i].hit();
+      }
     }
   }
   return response
@@ -595,6 +622,25 @@ var checkForPend = function(x, y) {
   return response;
 }
 
+
+//audio
+var createAudio = function(src) {
+  if(audio) {
+    $('body').append('<audio class="'+src+'" autoplay src="sounds/'+src+'.mp3" type="audio/mpeg"></audio>');
+  }
+}
+
+var deleteAudio = function(src) {
+  if(audio) {
+    $('.'+src).animate({volume: 0}, 250);
+      setTimeout(function(){$('.'+src).remove();}, 250)
+  }
+}
+
+var clickSomething = function() {
+  createAudio("select");
+  setTimeout(function() {deleteAudio("select")}, 750);
+}
 
 //Draw rows in the back of the game
 
@@ -659,6 +705,7 @@ var initGame = function() {
   $('.instruction').remove();
   lvlwon = false;
   lvllost = false;
+  shadowsInit = false;
   ws = [];
   es = [];
   wc = [];
@@ -674,6 +721,7 @@ var initGame = function() {
   for(i = 0; i < wc.length; i++) {
     ws[i] = new Wall(wc[i][0], wc[i][1], i);
   }
+  setTimeout(function() {shadowsInit = true}, 10);
   p = new Player();
   p.place(lvl.pcords[0], lvl.pcords[1]);
   $(p.id).css("opacity", 1);
@@ -707,6 +755,12 @@ var initGame = function() {
   $('#msg').html('');
   setTimeout(function() {$('#playbutton').html('click to reset');$('#message').html('')}, 500);
   state = 'up';
+  if(shadows === false) {
+    $('.shadow').css("opacity", "0");
+  }
+  if(arrows === false) {
+    $('.arrow').css("opacity", "0");
+  }
   toggleHeader();
   updateVals();
 }
@@ -720,6 +774,7 @@ $(document).ready(function() {
   $('#loading-background-animated').addClass('load');
   setTimeout(function() {
     $('#loading-container').fadeTo(1000, 0);
+    $("#loading-audio").remove();
   }, loadingTime - 1000);
   setTimeout(function() {
     $('#loading-container').remove();
