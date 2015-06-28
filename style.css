@@ -230,8 +230,8 @@ body {
   border-style: solid;
   border-width: 0 15px 26.0px 15px;
   border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent;
-  transition: transform, -webkit-transform 0.1s;
-  -webkit-transition: transform, -webkit-transform 0.1s;
+  transition: transform 0.1s, -webkit-transform 0.1s, opacity 0.25s;
+  -webkit-transition: transform 0.1s, -webkit-transform 0.1s, opacity 0.25s;
 }
 
 
@@ -366,7 +366,7 @@ h1 {
   height: 6vh;
 }
 
-#info {
+#info, #options {
   height:auto;
   text-align:left;
   margin: 0;
@@ -376,7 +376,7 @@ h1 {
   margin-top: 100px;
 }
 
-#info h4 {
+#info h4, #options h4 {
   font-size: 50px;
   margin: 0;
   margin-left: 50px;
@@ -390,6 +390,65 @@ h1 {
   height: 10vh;
   line-height: 10vh;
   margin-right: 50px;
+}
+
+.option-outer {
+  width: 100%;
+  display:block;
+  height: 100px;
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  line-height: 100px;
+}
+
+.option-outer * {
+  vertical-align: middle;
+  margin: 0;
+  display:inline-block;
+}
+
+.option-outer .option-circle {
+  height: 50px;
+  width: 50px;
+  margin: 0;
+  border-radius: 30px;
+  border: 2px solid white;
+  background-color: transparent;
+  margin-top: 25px;
+  top: -50%;
+  cursor: pointer;
+  float:left;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  -webkit-transform-origin: 50% 50%;
+  -webkit-transform: scale(1);
+  -ms-transform-origin: 50% 50%;
+  -ms-transform: scale(1);
+  transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s, background-color 0.25s;
+  -webkit-transition: transform 0.25s, -webkit-transform 0.25s, -ms-transform 0.25s, opacity 0.25s, background-color 0.25s;
+
+}
+
+.option-circle.on {
+  background-color: white;
+}
+
+.option-circle:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+}
+
+.option-circle:active {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+}
+
+.option-outer p {
+  font-size: 50px;
+  margin-left: 50px;
 }
 
 .header-links {
