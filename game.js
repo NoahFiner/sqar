@@ -774,7 +774,8 @@ $(document).ready(function() {
   $('#loading-background-animated').addClass('load');
   setTimeout(function() {
     $('#loading-container').fadeTo(1000, 0);
-    $("#loading-audio").remove();
+    $('#loading-audio').animate({volume: 0}, 5500);
+    setTimeout(function() {$("#loading-audio").remove();}, 5500);
   }, loadingTime - 1000);
   setTimeout(function() {
     $('#loading-container').remove();
