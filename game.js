@@ -148,8 +148,10 @@ var Player = function() {
   this.die = function() {
     lvllost = true;
     if(lvlwon === false) {
+      createAudio("death2");
+      setTimeout(function() {deleteAudio("death2")}, 2500);
       createAudio("death");
-      setTimeout(function() {deleteAudio("death")}, 5000);
+      setTimeout(function() {deleteAudio("death")}, 2500);
     }
     randLoseText = loseText[Math.floor(Math.random()*loseText.length)];
     $('#message').html(randLoseText+"<br>hit the button below to try again.");
