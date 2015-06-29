@@ -76,8 +76,8 @@ body {
   right: 0;
   width: 125%;
   margin: 0;
-  transition: right 6s linear;
-  -webkit-transition: right 6s linear;
+  transition: right 10s linear;
+  -webkit-transition: right 10s linear;
 }
 
 #loading-background-animated.load {
