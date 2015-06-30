@@ -2,7 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:500,600,700,100,800,900,400,200,300);
 
 *, html, body {
-  font-family: raleway;
+  font-family: raleway, helvetica, sans-serif;
 }
 
 html{
@@ -188,6 +188,8 @@ body {
   margin: 0 0 0 0;
   background-color: blue;
   border: 1px solid blue;
+  transform: scale(1);
+  -webkit-transform: scale(1);
 }
 
 .shadow {
@@ -197,6 +199,10 @@ body {
   float:right;
   opacity: 0.5;
   margin: 0;
+}
+
+#p-shadow, .e-shadow {
+  opacity: 0.25;
 }
 
 .wall-shadow {
@@ -412,7 +418,7 @@ h1 {
   height: 50px;
   width: 50px;
   margin: 0;
-  border-radius: 30px;
+  border-radius: 50px;
   border: 2px solid white;
   background-color: transparent;
   margin-top: 25px;
@@ -771,6 +777,29 @@ h6 {
   -webkit-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
   -moz-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
   box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
+}
+
+.eend-death {
+  background-color: red !important;
+  outline-color: red !important;
+  border: 1px solid red !important;
+  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
+  -moz-box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
+  box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
+}
+
+#eend {
+  margin: 0;
+  position: absolute;
+  display:inline-block;
+  background-color: orange;
+  outline-color: orange;
+  outline-width: 1px;
+  border: 1px solid orange;
+  z-index:-1000;
+  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1);
+  -moz-box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1));
+  box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1);
 }
 
 .square-gradient {
