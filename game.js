@@ -51,8 +51,8 @@ var speed = 1;
 
 var gameActive = false;
 
-var winText = ["you rocked that level!", "great job!", "whoah! nice moves!", "wow!", "that level was easy, wasn't it?", "you taught those red squares a lesson!", "those red squares had no chance", "the developer had trouble on that one!", "excellent work!", "that level was as easy as your mom"];
-var loseText = ["ha rekt", "well, that didn't work", "you got a gold star with 'you tried' on it.", "my mom could have done that better", "the developer coded that to be easy", "why did you move there???", "you had no chance", "you had so much potential. jk", "well, at least the red squares are less hungry.", "that explosion at the end was cool, right?", "this was actually supposed to be a replacement for level 1...", "fun fact: watching you fail is fun."];
+var winText = ["that was like level 1", "yay, you procrastinated well", "it's not like you have homework", "as if you hadn't exploited that glitch", "just a 'few' levels left!", "you taught those red squares a lesson!", "think about the red families you ruined", "that could have been much easier", "how did it take you that long...", "that level was as easy as your mom", "wow, you finished just now?", "almost fell asleep watching you", "you could have done that much better", "that was really unecessary, but yay", "good thing the levels only get harder, right?", "that level was as hard as my pillow"];
+var loseText = ["ha rekt", "well, that didn't work", "ACHIEVEMENT: participation lol", "ACHIEVEMENT: sucking lol", "my mom could have done that better", "my grandmother coded that", "how did you do that so badly?", "I'm not mad, just dissapointed.", "it's funny how bad you did", "I recorded that and soon your friends will see", "at least the red squares are less hungry", "that explosion at the end was cool, right?", "this is level 1's replacement...", "fun fact: watching you fail is fun", "that ending sound was pretty neat, though", "your parents raised you better than this"];
 
 lvlnum = 0;
 
@@ -115,8 +115,9 @@ var updateVals = function() {
   $('.wall').width(cellWidth);
   $('.wall-shadow').height(cellHeight*2 + 3);
   $('.wall-shadow').width(cellWidth*2 + 3);
-  $('#pend').width(cellWidth);
-  $('#pend').height(cellHeight);
+  $('#pend, #eend').width(cellWidth);
+  $('#pend, #eend').height(cellHeight);
+  $('.arrow').css("border-width", "0 "+cellWidth/100*15+"px "+cellWidth/100*26+"px "+cellWidth/100*15+"px");
 }
 updateVals();
 
@@ -127,7 +128,7 @@ var lvllost = false;
 var Player = function() {
   this.x = 0;
   this.y = 0;
-  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><div class='square-gradient'></div><img class='shadow' id='p-shadow' src='shadow-bottomleft.png'/></div></div>"
+  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><div class='square-gradient'></div><img class='shadow' id='p-shadow' src='shadows/shadow-bottomleft.png'/></div></div>"
   this.speed = speed;
   this.speed1 = this.speed + 1;
   this.id = '#player';
@@ -151,6 +152,7 @@ var Player = function() {
       createAudio("death2");
       setTimeout(function() {deleteAudio("death2")}, 2500);
       createAudio("death");
+      $('.death').animate({volume: 0.5}, 250);
       setTimeout(function() {deleteAudio("death")}, 2500);
     }
     randLoseText = loseText[Math.floor(Math.random()*loseText.length)];
@@ -192,12 +194,18 @@ var Player = function() {
     explosion.init();
     explosion.explode();
     $('#p-shadow').css("opacity", "0");
-    $(this.id).css("transform", "rotate(360deg)");
-    $(this.id).css("-webkit-transform", "rotate(360deg)");
+    if(lvl.type === "player-end") {
+      $(this.id).css("transform", "rotate(360deg) scale(0)");
+      $(this.id).css("-webkit-transform", "rotate(360deg) scale(0)");
+    }
+    else {
+      $(this.id).css("transform", "rotate(360deg)");
+      $(this.id).css("-webkit-transform", "rotate(360deg)");
+    }
     $(this.id).css("z-index", 1000000000);
     var that = this;
     setTimeout(function() {$(that.id).fadeTo(250, 0);}, 750);
-    setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $('#p-shadow').css("opacity", "0.5"); $(that.id).css("transform", "rotate(0deg)"); $(that.id).css("-webkit-transform", "rotate(0deg)");}, 1000);
+    setTimeout(function() {deleteGame(); $(that.id).css('z-index', 0); $('#p-shadow').css("opacity", "0.5"); $(that.id).css("transform", "rotate(0deg) scale(1)"); $(that.id).css("-webkit-transform", "rotate(0deg) scale(1)");}, 1000);
   }
   this.remove = function() {
     $(this.id).remove();
@@ -216,19 +224,26 @@ var Player = function() {
     if(checkForEnemy(this.x, this.y)) {
       this.die();
     }
+    if(lvl.type === "enemy-end-death") {
+      if(checkForPend(p.x, p.y)) {
+        p.die();
+        lvllost = true;
+      }
+    }
   }
   this.hitDetection = function() {
     if(enemyCheck(this.x, this.y)) {
       this.die();
     }
-    if(checkForPend(this.x, this.y)) {
-      this.win();
+    if(lvl.type === "player-end") {
+      if(checkForPend(this.x, this.y)) {
+        this.win();
+      }
     }
-    else {
-      var randNum = Math.floor(Math.random()*5);
-      createAudio('pmove'+randNum);
-      setTimeout(function() {deleteAudio('pmove'+randNum)}, 750);
-    }
+    var randNum = Math.floor(Math.random()*5);
+    createAudio('pmove'+randNum);
+    $('.pmove'+randNum).animate({volume: 0.2}, 1);
+    setTimeout(function() {deleteAudio('pmove'+randNum)}, 750);
   }
   this.left = function(dist) {
     if(this.x - dist <= 0) {
@@ -313,41 +328,41 @@ var Wall = function(x, y, num) {
   this.num = num;
   this.id = 'wall'+this.num;
   this.html = "<div id='"+this.id+"' class='wall'><div id='wall"+this.num+"-mask' class='wall-mask background-full'></div>"
-  this.shadowsrc = 'shadow-bottomleft.png'
+  this.shadowsrc = 'shadows/shadow-bottomleft.png'
   this.shadow = "<img src='"+this.shadowsrc+"' class='shadow wall-shadow' id='wall-shadow"+this.num+"'/>"
   this.type = 'wall';
   this.updateshadows = function() {
-    this.shadowsrc = 'wallshadow-bottomleft-nowall.png';
+    this.shadowsrc = 'shadows/wallshadow-bottomleft-nowall.png';
     if((checkForWall((this.x-1, this.y) != -1) || (checkForWall(this.x+1, this.y) != -1)) && (checkForWall(this.x, this.y+1) === -1)) {
-      this.shadowsrc = 'shadow-bottom.png';
+      this.shadowsrc = 'shadows/shadow-bottom.png';
       if(checkForWall(this.x+1, this.y) === -1) {
-        this.shadowsrc = 'wallshadow-bottomleft.png';
+        this.shadowsrc = 'shadows/wallshadow-bottomleft.png';
       }
       if(checkForWall(this.x-1, this.y) === -1) {
-        this.shadowsrc = 'shadow-bottom-nowall.png';
+        this.shadowsrc = 'shadows/shadow-bottom-nowall.png';
       }
     }
     if(((checkForWall(this.x, this.y-1) != -1) || (checkForWall(this.x, this.y+1) != -1)) && (checkForWall(this.x-1, this.y) === -1)) {
-      this.shadowsrc = 'shadow-left.png';
+      this.shadowsrc = 'shadows/shadow-left.png';
       if(checkForWall(this.x, this.y-1) === -1) {
-        this.shadowsrc = 'wallshadow-bottomleft.png';
+        this.shadowsrc = 'shadows/wallshadow-bottomleft.png';
       }
       if(checkForWall(this.x, this.y+1) === -1) {
-        this.shadowsrc = 'shadow-left-nowall.png';
+        this.shadowsrc = 'shadows/shadow-left-nowall.png';
       }
     }
     if(((checkForWall(this.x, this.y-1) === -1) && (checkForWall(this.x, this.y+1) === -1) && (checkForWall(this.x-1, this.y) === -1) && (checkForWall(this.x+1, this.y) === -1))) {
-      this.shadowsrc = 'wallshadow-bottomleft.png';
+      this.shadowsrc = 'shadows/wallshadow-bottomleft.png';
       if(checkForWall(this.x-1, this.y+1) === -1) {
-        this.shadowsrc = 'wallshadow-bottomleft-nowall.png';
+        this.shadowsrc = 'shadows/wallshadow-bottomleft-nowall.png';
       }
     }
     if((checkForWall(this.x+1, this.y) != -1) && checkForWall(this.x, this.y-1) != -1) {
-      this.shadowsrc = 'shadow-everywhere.png';
+      this.shadowsrc = 'shadows/shadow-everywhere.png';
     }
 
     // if(checkForWall(this.x, this.y+1) === -1 && checkForWall(this.x, this.y-1) != -1) {
-    //   this.shadowsrc = 'shadow-bottomleft.png';
+    //   this.shadowsrc = 'shadows/shadow-bottomleft.png';
     // }
     $('#wall-shadow'+this.num).attr("src", this.shadowsrc);
   }
@@ -374,8 +389,9 @@ var Wall = function(x, y, num) {
     var that = this;
     setTimeout(function() {$('#'+that.id).removeClass("hit")}, 75);
     setTimeout(function() {
-      createAudio('wallhit');
-      setTimeout(function() {deleteAudio('wallhit')}, 750);
+      randNum = Math.floor(Math.random()*4);
+      createAudio('wallhit'+randNum);
+      setTimeout(function() {deleteAudio('wallhit'+randNum)}, 750);
     }, 50);
   }
   this.remove = function() {
@@ -406,6 +422,29 @@ var Pend = function(x, y) {
   }
 }
 
+//Enemy goal (wow I need to learn inheritance)
+
+var Eend = function(x, y) {
+  this.x = x;
+  this.y = y;
+  this.html = "<div id='eend'><div id='pend-gradient' class='background-full'></div></div>";
+  this.type = 'eend';
+  this.update = function() {
+    $('#eend').css("margin-left", this.x*actW);
+    $('#eend').css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    $('#pend-background').append(this.html);
+    if(lvl.type === "enemy-end-death") {
+      $('#eend').addClass("eend-death");
+    }
+    this.update();
+  }
+  this.init();
+  this.remove = function() {
+    $('#eend').remove();
+  }
+}
 
 //Instruction text!
 
@@ -473,11 +512,12 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.num = num;
   this.x = 0;
   this.y = 0;
-  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div class='square-gradient'></div><img src='shadow-bottomleft.png' class='shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
+  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div class='square-gradient'></div><img src='shadows/shadow-bottomleft.png' class='shadow e-shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
   this.speed = 1;
   this.init = function() {
     this.remove();
     $('#enemy-background').append(this.html);
+    $('#enemy'+this.num).css("opacity", "1");
     this.update();
   }
   this.place = function(x, y) {
@@ -534,6 +574,18 @@ var Enemy = function(num) { // lol idk how to do inheritance
     $('#enemy'+this.num).css("margin-left", this.x*actW);
     $('#enemy'+this.num).css("margin-top", this.y*actH);
     ec[num] = [this.x, this.y];
+    if(lvl.type === "enemy-end" || lvl.type === "enemy-end-death") {
+      if(checkForPend(this.x, this.y) && (lvllost === false)) {
+        p.win();
+        $('#enemy'+this.num).css("transform", "scale(0)");
+        $('#enemy'+this.num).css("-webkit-transform", "scale(0)");
+        setTimeout(function() {
+          $('#enemy'+this.num).css("opacity", "0");
+          $('#enemy'+this.num).css("transform", "scale(1)");
+          $('#enemy'+this.num).css("-webkit-transform", "scale(1)");
+        }, 1000)
+      }
+    }
   }
   this.left = function(dist) {
     if(this.x - dist <= 0) {
@@ -704,6 +756,7 @@ var initGame = function() {
   $('.enemy').remove();
   $('.wall').remove();
   $('#pend').remove();
+  $('#eend').remove();
   $('.instruction').remove();
   lvlwon = false;
   lvllost = false;
@@ -719,7 +772,6 @@ var initGame = function() {
   updateVals();
   $('#player').remove();
   delete p;
-  delete pend;
   for(i = 0; i < wc.length; i++) {
     ws[i] = new Wall(wc[i][0], wc[i][1], i);
   }
@@ -747,7 +799,12 @@ var initGame = function() {
     es[i] = new Enemy(i);
     es[i].place(lvl.ecords[i][0], lvl.ecords[i][1]);
   }
-  pend = new Pend(endc[0], endc[1]);
+  if(lvl.type === "player-end") {
+    pend = new Pend(endc[0], endc[1]);
+  }
+  if(lvl.type === "enemy-end" || lvl.type === "enemy-end-death") {
+    eend = new Eend(endc[0], endc[1]);
+  }
   if(lvl.instruct != '') {
     texty = new Text(lvl.instruct, lvl.instructX, lvl.instructY, 1);
     clearTimeout(textyRemove);
@@ -776,8 +833,8 @@ $(document).ready(function() {
   $('#loading-background-animated').addClass('load');
   setTimeout(function() {
     $('#loading-container').fadeTo(1000, 0);
-    $('#loading-audio').animate({volume: 0}, 5500);
-    setTimeout(function() {$("#loading-audio").remove();}, 5500);
+    $('#loading-audio').animate({volume: 0}, 500);
+    setTimeout(function() {$("#loading-audio").remove();}, 500);
   }, loadingTime - 1000);
   setTimeout(function() {
     $('#loading-container').remove();
@@ -838,6 +895,12 @@ $(document).ready(function() {
     if((keyVal === 37 || keyVal ===  38 || keyVal ===  39 || keyVal === 40) && (gameActive) && (state === 'down') && (lvlwon === false) && (lvllost === false)) {
       if(checkForEnemy(p.x, p.y)) {
         p.die();
+      }
+      if(lvl.type === "enemy-end-death") {
+        if(checkForPend(p.x, p.y)) {
+          p.die();
+          lvllost = true;
+        }
       }
       switch(keyVal) {
         case 37: // left

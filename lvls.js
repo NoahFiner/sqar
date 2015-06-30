@@ -20,6 +20,11 @@ var Level = function(colnum, pcords, ecords, wcords, endType, endCoords) {
 }
 var lvls = [];
 
+//TYPES:
+// 'player-end' has a green ending that runs p.win() when the player touches it
+// 'enemy-end' has an orange ending that runs p.win() when an enemy touches it
+// 'enemy-end-death' has a red ending that runs p.win() when an enemy touches it but runs p.die() if the player touches it
+
 l1 = new Level(10, [2, 2], [[1, 2]], [[0, 1], [0, 2], [0, 3], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3], [9, 3], [9, 2]], 'player-end', [8, 2]);
 l1.addInstruction("use the arrow keys to move you, the blue square<br>try to get to the green!", 1, 1);
 lvls.push(l1);
@@ -103,3 +108,28 @@ l29.addInstruction("you have fun with this monster", 4, 0);
 l30 = new Level(12, [4, 1], [[0, 5], [8, 4], [11, 1]], [[0, 3], [1, 3], [2, 3], [2, 2], [3, 2], [4, 2], [4, 3], [5, 3], [10, 0], [10, 1], [10, 2], [10, 3]], 'player-end', [11, 0]);
 l30.addInstruction("this guy will be a problem if he's not trapped", 1, 5);
 lvls.push(l30);
+l31 = new Level(4, [0, 0], [[0, 1]], [], 'enemy-end', [3, 1]);
+l31.addInstruction("to win this level, you must make the red square go over the orange square")
+lvls.push(l31);
+l32 = new Level(4, [0, 0], [[0, 1]], [[2, 0]], 'enemy-end', [3, 1]);
+l32.addInstruction("remember, if there's no where to move, move nowhere", 0, 1);
+lvls.push(l32);
+l33 = new Level(6, [0, 0], [[0, 2]], [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1]], 'enemy-end', [5, 1])
+lvls.push(l33);
+l34 = new Level(10, [0, 0], [[1, 1], [1, 3]], [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [4, 1], [4, 3], [5, 2], [6, 2], [7, 2], [8, 2]], 'enemy-end', [0, 4]);
+lvls.push(l34);
+l35 = new Level(10, [0, 0], [[1, 1], [1, 3], [9, 2]], [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [4, 1], [4, 3], [5, 2], [6, 2], [7, 2], [8, 2]], 'enemy-end', [0, 4]);
+l35.addInstruction("fun, huh?", 3, 4);
+lvls.push(l35);
+l36 = new Level(4, [0, 0], [[0, 1]], [], 'enemy-end-death', [3, 1]);
+l36.addInstruction("if the red square end is red, you can't touch it.");
+lvls.push(l36);
+l37 = new Level(6, [0, 0], [[0, 2]], [[0, 1], [1, 1], [2, 1], [3, 1], [5, 1]], 'enemy-end-death', [4, 1])
+lvls.push(l37);
+l38 = new Level(10, [0, 0], [[1, 1], [1, 3]], [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [8, 2], [9, 2]], 'enemy-end-death', [7, 2]);
+lvls.push(l38);
+l39 = new Level(12, [5, 0], [[0, 5], [0, 1]], [[0, 2], [1, 2], [2, 2], [3, 2], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [11, 1], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [5, 5]], 'enemy-end-death', [10, 1])
+l39.addInstruction("now are times you don't want to trap enemies<br><br><br><br>...well, some enemies", 6, 0);
+lvls.push(l39);
+l40 = new Level(14, [0, 0], [[0, 6]], [[5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [10, 1], [10, 2], [10, 3], [10, 4], [10, 5], [9, 5], [8, 5], [7, 5], [6, 5], [5, 5], [4, 5], [3, 5], [3, 4], [3, 3], [3, 2], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3]], 'enemy-end-death', [4, 4])
+lvls.push(l40);
