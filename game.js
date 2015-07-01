@@ -9,7 +9,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 //None game variables
-loadingTime = 5500 //5500 for non-development;
+loadingTime = 500 //5500 for non-development;
 
 var audio = true;
 
@@ -35,6 +35,9 @@ var moveHeight, moveWidth;
 
 var ec = [];
 var es = [];
+
+var dpc = [];
+var dps = [];
 
 var amtOfEnemies = lvl.ecords.length;
 
@@ -72,6 +75,9 @@ var initVars = function() {
 
   ws = [];
   wc = lvl.wcords;
+
+  dps = [];
+  dpc = lvl.dpCoords;
 
   pc = lvl.pcords;
 
@@ -113,6 +119,8 @@ var updateVals = function() {
   $('.enemy').width(cellWidth + 1);
   $('.wall').height(cellHeight);
   $('.wall').width(cellWidth);
+  $('.dp').height(cellHeight);
+  $('.dp').width(cellWidth);
   $('.wall-shadow').height(cellHeight*2 + 3);
   $('.wall-shadow').width(cellWidth*2 + 3);
   $('#pend, #eend').width(cellWidth);
@@ -224,6 +232,10 @@ var Player = function() {
     if(checkForEnemy(this.x, this.y)) {
       this.die();
     }
+    if(checkForDP(this.x, this.y) != -1) {
+      DPDeath(this.x, this.y);
+      this.die();
+    }
     if(lvl.type === "enemy-end-death") {
       if(checkForPend(p.x, p.y)) {
         p.die();
@@ -234,6 +246,10 @@ var Player = function() {
   this.hitDetection = function() {
     if(enemyCheck(this.x, this.y)) {
       this.die();
+    }
+    if(checkForDP(this.x, this.y) != -1) {
+      this.die();
+      DPDeath(this.x, this.y);
     }
     if(lvl.type === "player-end") {
       if(checkForPend(this.x, this.y)) {
@@ -446,6 +462,29 @@ var Eend = function(x, y) {
   }
 }
 
+
+//Death Panel
+var Dp = function(x, y, num) {
+  this.x = x;
+  this.y = y;
+  this.num = num;
+  this.html = "<div class='dp' id='dp"+this.num+"'><div class='dp-gradient' class='background-full'><img class='shadow' class='e-shadow' src='shadows/shadow-bottomleft.png'/></div></div>";
+  this.type = 'dp';
+  this.update = function() {
+    $('#dp'+this.num).css("margin-left", this.x*actW);
+    $('#dp'+this.num).css("margin-top", this.y*actH);
+  }
+  this.init = function() {
+    $('#dp-background').append(this.html);
+    this.update();
+  }
+  this.init();
+  this.remove = function() {
+    $('#dp'+this.num).remove();
+  }
+}
+
+
 //Instruction text!
 
 var Text = function(text, x, y, num) {
@@ -489,7 +528,6 @@ var Explosion = function(x, y, intensity, quant, c1, c2, c3, c4, c5) {
       $('#explosion'+i).css("background-color", this.colors[Math.floor(Math.random()*5)]);
       $('#explosion'+i).css("transition", "margin-left: 0.5s, margin-top: 0.5s, opacity: 1s");
       $('#explosion'+i).css("-webkit-transition", "margin-left: 0.5s, margin-top: 0.5s, opacity: 1s");
-
     }
     this.update();
   }
@@ -587,6 +625,17 @@ var Enemy = function(num) { // lol idk how to do inheritance
       }
     }
   }
+  this.die = function() {
+    $('#enemy'+this.num).css("transform", "scale(0)");
+    $('#enemy'+this.num).css("-webkit-transform", "scale(0)");
+    setTimeout(function() {
+      $('#enemy'+this.num).css("opacity", "0");
+      $('#enemy'+this.num).css("transform", "scale(1)");
+      $('#enemy'+this.num).css("-webkit-transform", "scale(1)");
+    }, 1000)
+    this.x = 6969696969; //proffesional coding
+    this.y = 6969696969;
+  }
   this.left = function(dist) {
     if(this.x - dist <= 0) {
       dist = this.x;
@@ -598,6 +647,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       }
       this.x -= dist;
       this.update();
+    }
+    if(checkForDP(this.x, this.y) != -1) {
+      DPDeath(this.x, this.y);
+      this.die();
     }
     $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(270deg)"});
   }
@@ -613,6 +666,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.x += dist;
       this.update();
     }
+    if(checkForDP(this.x, this.y) != -1) { //ik ik I shouldn't be putting this if statement so many times.
+      DPDeath(this.x, this.y); //but the game crashes if I put it in this.update() upon loading and the enemy spawning for loop breaks.
+      this.die();
+    }
     $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(90deg)"});
   }
   this.up = function(dist) {
@@ -627,6 +684,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       this.y -= dist;
       this.update();
     }
+    if(checkForDP(this.x, this.y) != -1) {
+      DPDeath(this.x, this.y);
+      this.die();
+    }
     $('#enemy-arrow'+this.num).css({transform:"translate(-50%, -50%) rotate(0deg)"});
   }
   this.down = function(dist) {
@@ -640,6 +701,10 @@ var Enemy = function(num) { // lol idk how to do inheritance
       }
       this.y += dist;
       this.update();
+    }
+    if(checkForDP(this.x, this.y) != -1) {
+      DPDeath(this.x, this.y);
+      this.die();
     }
     $('#enemy-arrow'+this.num).css("transform", "translate(-50%, -50%) rotate(180deg)");
   }
@@ -672,6 +737,26 @@ var checkForPend = function(x, y) {
   var response = false;
   if((endc[0] === x) && (endc[1] === y)) {
     response = true;
+  }
+  return response;
+}
+
+var DPDeath = function(x, y) {
+  createAudio('death2');
+  setTimeout(function() {deleteAudio('death2')}, 500);
+  explosion = new Explosion(x, y, 15, 25, '#000', '#141414', '#3D3D3D', '#5C5C5C', '#333333');
+  explosion.init();
+  explosion.explode();
+}
+
+var checkForDP = function(x, y) {
+  var response = -1;
+  if(dpc.length != 0) {
+    for(i = 0; i < dpc.length; i++) {
+      if((dpc[i][0] === x) && (dpc[i][1] === y)) {
+        response = i;
+      }
+    }
   }
   return response;
 }
@@ -757,7 +842,9 @@ var initGame = function() {
   $('.wall').remove();
   $('#pend').remove();
   $('#eend').remove();
-  $('.instruction').remove();
+  $('.dp').remove();
+  $('.instruction').remove(); // hmm, I should like add a class to all these to delete them all at once
+  //lolnope
   lvlwon = false;
   lvllost = false;
   shadowsInit = false;
@@ -765,6 +852,8 @@ var initGame = function() {
   es = [];
   wc = [];
   ec = [];
+  dps = [];
+  dpc = [];
   initVars();
   gameActive = true;
   initsizes();
@@ -804,6 +893,10 @@ var initGame = function() {
   }
   if(lvl.type === "enemy-end" || lvl.type === "enemy-end-death") {
     eend = new Eend(endc[0], endc[1]);
+  }
+  dpc = lvl.dpCoords;
+  for(i = 0; i < dpc.length; i++) {
+    dps[i] = new Dp(dpc[i][0], dpc[i][1], i);
   }
   if(lvl.instruct != '') {
     texty = new Text(lvl.instruct, lvl.instructX, lvl.instructY, 1);
@@ -901,6 +994,10 @@ $(document).ready(function() {
           p.die();
           lvllost = true;
         }
+      }
+      if(checkForDP(p.x, p.y) != -1) {
+        DPDeath(p.x, p.y);
+        p.die();
       }
       switch(keyVal) {
         case 37: // left
