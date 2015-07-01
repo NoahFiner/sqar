@@ -12,10 +12,14 @@ var Level = function(colnum, pcords, ecords, wcords, endType, endCoords) {
   this.instruct = '';
   this.instructX = 0;
   this.instructY = 0;
+  this.dpCoords = [];
   this.addInstruction = function(text, x, y) {
     this.instruct = text;
     this.instructX = x;
     this.instructY = y;
+  }
+  this.addDeathPanels = function(coords) {
+    this.dpCoords = coords;
   }
 }
 var lvls = [];
@@ -133,3 +137,20 @@ l39.addInstruction("now are times you don't want to trap enemies<br><br><br><br>
 lvls.push(l39);
 l40 = new Level(14, [0, 0], [[0, 6]], [[5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [10, 1], [10, 2], [10, 3], [10, 4], [10, 5], [9, 5], [8, 5], [7, 5], [6, 5], [5, 5], [4, 5], [3, 5], [3, 4], [3, 3], [3, 2], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3]], 'enemy-end-death', [4, 4])
 lvls.push(l40);
+l41 = new Level(6, [0, 0], [[1, 1], [5, 1]], [[4, 1], [4, 2]], 'player-end', [5, 2]);
+l41.addDeathPanels([[1, 2]]);
+l41.addInstruction("I wouldn't recommend touching that black thing...", 2, 0);
+lvls.push(l41);
+l42 = new Level(10, [5, 2], [[0, 2], [1, 2], [2, 2], [3, 2], [9, 3]], [[8, 1], [8, 2], [8, 3], [8, 4]], 'player-end', [9, 4]);
+l42.addDeathPanels([[4, 2]]);
+l42.addInstruction("you're welcome", 0, 3);
+lvls.push(l42);
+l43 = new Level(10, [9, 2], [[9, 3], [1, 2]], [[2, 2], [8, 4], [8, 3], [8, 2], [8, 1], [7, 1], [6, 1], [6, 2]], 'player-end', [0, 2]);
+l43.addDeathPanels([[7, 2]]);
+lvls.push(l43);
+l44 = new Level(10, [7, 3], [[1, 1], [1, 3], [9, 2]], [[2, 1], [2, 3], [8, 1], [8, 2], [8, 3], [8, 4], [6, 0], [6, 1], [6, 2], [5, 3]], 'enemy-end', [9, 3]);
+l44.addDeathPanels([[7, 4]]);
+lvls.push(l44);
+l45 = new Level(10, [4, 1], [[3, 3], [6, 3]], [[3, 2], [4, 2], [5, 2], [6, 2]], 'enemy-end-death', [6, 4]);
+l45.addDeathPanels([[2, 2], [7, 2]]);
+lvls.push(l45);

@@ -220,6 +220,27 @@ body {
   border: 1px solid red;
 }
 
+.dp {
+  display:inline-block;
+  position:absolute;
+  margin: 0 0 0 0;
+  background-color: black;
+  border: 1px solid black;
+  box-shadow: 0 0 30px red;
+}
+
+.dp-gradient {
+  background: -moz-linear-gradient(45deg,  rgba(0,0,0,0) 0%, rgba(255,255,255,0.3) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(255,255,255,0.3))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* IE10+ */
+  background: linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  height:100%;
+  width:100%;
+}
+
 .enemy-mask {
   position:relative;
   height:100%;
