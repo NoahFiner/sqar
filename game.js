@@ -9,7 +9,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 //None game variables
-loadingTime = 5500 //5500 for non-development;
+loadingTime = 500 //5500 for non-development;
 
 var audio = true;
 
@@ -136,7 +136,7 @@ var lvllost = false;
 var Player = function() {
   this.x = 0;
   this.y = 0;
-  this.html = "<div id='player' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transform 0.75s, transform 0.75s, -webkit-transition: margin-left 0.1s, margin-top 0.1s ease-in-out'><div id='player-mask' class='background-full'><div class='square-gradient'></div><img class='shadow' id='p-shadow' src='shadows/shadow-bottomleft.png'/></div></div>"
+  this.html = "<div id='player' style='transition: margin-left 0.25s cubic-bezier(0.4, -0.04, 0.04, 1.28), margin-top 0.25s cubic-bezier(0.4, -0.04, 0.04, 1.28), -webkit-transform 0.75s, transform 0.75s; -webkit-transition: margin-left 0.25s cubic-bezier(0.4, -0.04, 0.04, 1.28), margin-top 0.25s cubic-bezier(0.4, -0.04, 0.04, 1.28), -webkit-transform 0.75s, transform 0.75s'><div id='player-mask' class='background-full'><div class='square-gradient'></div><img class='shadow' id='p-shadow' src='shadows/shadow-bottomleft.png'/></div></div>"
   this.speed = speed;
   this.speed1 = this.speed + 1;
   this.id = '#player';
@@ -550,7 +550,7 @@ var Enemy = function(num) { // lol idk how to do inheritance
   this.num = num;
   this.x = 0;
   this.y = 0;
-  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transition: margin-left 0.1s, margin-top 0.1s, -webkit-transform 0.75s, transform 0.75s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div class='square-gradient'></div><img src='shadows/shadow-bottomleft.png' class='shadow e-shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
+  this.html = "<div class='enemy' id='enemy"+this.num+"' style='transition: margin-left 0.25s cubic-bezier(0.42, 0, 0.02, 1.26), margin-top 0.25s cubic-bezier(0.42, 0, 0.02, 1.26), -webkit-transform 0.75s, transform 0.75s ease-in-out; -webkit-transition: margin-left 0.25s cubic-bezier(0.42, 0, 0.02, 1.26), margin-top 0.25s cubic-bezier(0.42, 0, 0.02, 1.26), -webkit-transform 0.75s, transform 0.75s ease-in-out'><div class='enemy-mask' id='enemy-mask"+this.num+"' class='background-full'><div class='square-gradient'></div><img src='shadows/shadow-bottomleft.png' class='shadow e-shadow'/><div id='enemy-arrow"+this.num+"' class='arrow'></div></div></div>"
   this.speed = 1;
   this.init = function() {
     this.remove();

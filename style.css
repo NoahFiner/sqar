@@ -773,13 +773,13 @@ h6 {
   transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   transition: transform 0.25s, -webkit-transform 0.25s;
-  -webkit-transdition: transform 0.25s, -webkit-transform 0.25s;
+  -webkit-transition: transform 0.25s, -webkit-transform 0.25s;
   border: 1px solid gray;
 }
 
 .wall.hit {
-  transform: rotate(10deg);
-  -webkit-transform: rotate(10deg);
+  transform: rotate(20deg);
+  -webkit-transform: rotate(20deg);
   border: 1px solid #D65A5A;
 }
 
@@ -795,18 +795,18 @@ h6 {
   outline-color: #B9B9B9;
   outline-width: 1px;
   border: 1px solid #B9B9B9;
-  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
-  -moz-box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
-  box-shadow: inset 12px -12px 0px -5px rgba(0,82,5,1);
+  -webkit-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+  -moz-box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
+  box-shadow: inset -12px 12px 0px -5px rgba(0,82,5,1);
 }
 
 .eend-death {
   background-color: red !important;
   outline-color: red !important;
   border: 1px solid red !important;
-  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
-  -moz-box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
-  box-shadow: inset 12px -12px 0px -5px rgba(122, 0, 0, 1) !important;
+  -webkit-box-shadow: inset -12px 12px 0px -5px rgba(122, 0, 0, 1) !important;
+  -moz-box-shadow: inset -12px 12px 0px -5px rgba(122, 0, 0, 1) !important;
+  box-shadow: inset -12px 12px 0px -5px rgba(122, 0, 0, 1) !important;
 }
 
 #eend {
@@ -818,9 +818,9 @@ h6 {
   outline-width: 1px;
   border: 1px solid orange;
   z-index:-1000;
-  -webkit-box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1);
-  -moz-box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1));
-  box-shadow: inset 12px -12px 0px -5px rgba(143, 86, 0, 1);
+  -webkit-box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1);
+  -moz-box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1));
+  box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1);
 }
 
 .square-gradient {
