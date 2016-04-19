@@ -32,7 +32,7 @@ body {
   width: 101%;
   margin-left: -1%;
   margin-top: 0;
-  z-index: 10025;
+  z-index: 10;
   pointer-events: none;
 }
 
@@ -62,7 +62,7 @@ body {
 
 #loading-container {
   pointer-events: auto;
-  z-index: 1000000025348923429857239759237958234795834000000000000;
+  z-index: 100;
   background-color: black;
   height: 101%;
   width: 101%;
@@ -192,7 +192,7 @@ body {
 }
 
 .shadow {
-  z-index: -99987345069734598679;
+  z-index: -10;
   height: 200%;
   width: 200%;
   float: right;
@@ -208,7 +208,7 @@ body {
   display: inline-block;
   position: absolute;
   margin: 0;
-  z-index: 10;
+  z-index: 2;
 }
 
 .enemy {
@@ -326,7 +326,7 @@ h1 {
   border-bottom-color: black;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  z-index: 2138457298347592873495474836;
+  z-index: 50;
 }
 
 #score-div {
@@ -550,7 +550,7 @@ h1 {
 
 #header-content.shown * {
   pointer-events: auto;
-  z-index: 10;
+  z-index: 2;
 }
 
 #menu-background {
@@ -558,7 +558,7 @@ h1 {
   width: 100.5vw;
   height: 100.75vh;
   margin: 0;
-  z-index: 34982;
+  z-index: 3;
   pointer-events: auto;
   transition: opacity 0.25s;
   -webkit-transition: opacity 0.25s;
@@ -761,7 +761,7 @@ h6 {
 }
 
 .wall {
-  z-index: 10000;
+  z-index: 2;
   margin: 0;
   position: absolute;
   display: inline-block;
@@ -846,7 +846,7 @@ h6 {
   color:white;
   text-shadow: 0 0 5px #000;
   opacity: 0;
-  z-index:10000;
+  z-index:10;
 }
 
 .explosion {
