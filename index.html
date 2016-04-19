@@ -2,22 +2,21 @@
 <html>
   <head>
     <title>sqar</title>
-    <script language="javascript" type="text/javascript" src="jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="jqueryui.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css"></link>
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
+    <script language="javascript" type="text/javascript" src="jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="jqueryui.js"></script>
     <script language="javascript" type="text/javascript" src="lvls.js"></script>
     <script language="javascript" type="text/javascript" src="game.js"></script>
     <script language="javascript" type="text/javascript" src="ui.js"></script>
   </head>
   <body class="full">
-    <audio id="loading-audio" autoplay src="sounds/loading.mp3" type="audio/mpeg"></audio>
+  <!--  <audio id="loading-audio" autoplay src="sounds/loading.mp3" type="audio/mpeg"></audio> -->
     <div id="everything">
       <div id="loading-container" class="background-full">
           <img src="pixelated-full-background.png" class="background-full" id="loading-background-animated"/>
         <div id="loading-content">
-          <!-- <p style="font-size: 10px"><br><br>please wait...</p> -->
-          <!-- <div id="loading-square"></div> -->
           <div id="loading-container-lower">
             <img src="logo-nobackground.png" id="loading-logo"/>
             <p>please note that sqar is still in development at the moment bugs will occur<br>due to still being in development, <span style="color: #FFBABA">sqar is not cross-browser tested and will only work on Google Chrome</span><br>try to also avoid resizing the window while playing the game<br></p>
@@ -89,7 +88,7 @@
             <h4 id="info-header">info</h4>
             <p>developed by Noah, sqar is the long-awaited (by no one) sequel to <a href="http://noahfiner.github.io">sqr</a>.</p>
           </div>
-          <div id="stupid-placeholder-div-thing-wtf" style="width: 50px; height: 1000px"></div>
+          <div id="placeholder-div" style="width: 50px; height: 1000px"></div>
         </div>
       </div>
       <div id="game-container-outer" class="full">
@@ -118,7 +117,6 @@
           <div id="text-background" class="background-full">
           </div>
         </div>
-        <!-- <p id="msg">yo</p> -->
       </div>
     </div>
     </div>
