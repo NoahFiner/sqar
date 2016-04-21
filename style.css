@@ -5,7 +5,7 @@
   font-family: raleway, helvetica, sans-serif;
 }
 
-html{
+html {
   height: 100%;
 }
 
@@ -15,35 +15,35 @@ body {
 }
 
 .full {
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
 }
 
 #everything {
-  width:101%;
-  height:101%;
-  margin-left:-1%;
-  margin-top:-1%;
+  width: 101%;
+  height: 101%;
+  margin-left: -1%;
+  margin-top: -1%;
   overflow: hidden;
 }
 
 #header-container {
-  height:100%;
-  width:101%;
-  margin-left:-1%;
-  margin-top:0;
-  z-index:10025;
-  pointer-events:none;
+  height: 100%;
+  width: 101%;
+  margin-left: -1%;
+  margin-top: 0;
+  z-index: 10;
+  pointer-events: none;
 }
 
 #loading-square {
-  height:100px;
-  width:100px;
+  height: 100px;
+  width: 100px;
   margin-top: 100px;
-  position:relative;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   background-color: blue;
   background-image: url('loading.png');
   background-size: cover;
@@ -61,18 +61,18 @@ body {
 }
 
 #loading-container {
-  pointer-events:auto;
-  z-index:1000000025348923429857239759237958234795834000000000000;
-  background-color:black;
-  height:101%;
-  width:101%;
-  position:relative;
-  text-align:center;
+  pointer-events: auto;
+  z-index: 100;
+  background-color: black;
+  height: 101%;
+  width: 101%;
+  position: relative;
+  text-align: center;
 }
 
 #loading-background-animated {
-  position:absolute;
-  pointer-events:none;
+  position: absolute;
+  pointer-events: none;
   right: 0;
   width: 125%;
   margin: 0;
@@ -98,10 +98,10 @@ body {
 
 #loading-container-lower p {
   margin: 0;
-  float:right;
-  text-align:right;
-  display:block;
-  position:relative;
+  float: right;
+  text-align: right;
+  display: block;
+  position: relative;
   top: 75%;
 }
 
@@ -116,33 +116,32 @@ body {
 #game-container-outer {
   height:100%;
   width:100%;
-  background: -moz-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+  background: -moz-linear-gradient(45deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
-  background: linear-gradient(45deg,  rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* W3C */
+  background: -webkit-linear-gradient(45deg, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+  background: linear-gradient(45deg, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
 }
 
 #header-container, #game-container {
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
 }
 
 .background-full {
-  width:100%;
-  height:100%;
-  position:absolute;
-  display:inline-block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: inline-block;
 }
 
 /*Allows for a square.*/
 
 #game-container {
-  position:relative;
-  width:80% !important;
+  position: relative;
+  width: 80% !important;
   margin-left: 10% !important; /*should center this piece of crap*/
   margin-top: 8% !important;
 }
@@ -163,13 +162,13 @@ body {
 }
 
 .row {
-  height:1px;
-  width:100%;
-  display:block;
+  height: 1px;
+  width: 100%;
+  display: block;
   margin: 0 0 0 0;
-  background-color:#E8E8E8;
+  background-color: #E8E8E8;
   opacity: 0.3;
-  position:relative;
+  position: relative;
 }
 
 #rows {
@@ -181,10 +180,10 @@ body {
 }
 
 #player {
-  height:50px;
-  width:50px;
-  display:inline-block;
-  position:relative;
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  position: relative;
   margin: 0 0 0 0;
   background-color: blue;
   border: 1px solid blue;
@@ -193,10 +192,10 @@ body {
 }
 
 .shadow {
-  z-index:-99987345069734598679;
-  height:200%;
-  width:200%;
-  float:right;
+  z-index: -10;
+  height: 200%;
+  width: 200%;
+  float: right;
   opacity: 0.5;
   margin: 0;
 }
@@ -206,23 +205,23 @@ body {
 }
 
 .wall-shadow {
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
   margin: 0;
-  z-index:10;
+  z-index: 2;
 }
 
 .enemy {
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
   margin: 0 0 0 0;
   background-color: red;
   border: 1px solid red;
 }
 
 .dp {
-  display:inline-block;
-  position:absolute;
+  display: inline-block;
+  position: absolute;
   margin: 0 0 0 0;
   background-color: black;
   border: 1px solid black;
@@ -237,13 +236,13 @@ body {
   background: -ms-linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* IE10+ */
   background: linear-gradient(45deg,  rgba(0,0,0,0) 0%,rgba(255,255,255,0.3) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
 }
 
 .enemy-mask {
-  position:relative;
-  height:100%;
+  position: relative;
+  height: 100%;
 }
 
 .arrow {
@@ -283,65 +282,65 @@ body {
 }
 
 .column {
-  height:100%;
-  width:1px;
-  background-color:#E8E8E8;
+  height: 100%;
+  width: 1px;
+  background-color: #E8E8E8;
   margin: 0 0 0 0;
-  display:inline-block;
-  position:relative;
+  display: inline-block;
+  position: relative;
   opacity: 0.3;
 }
 
 h1 {
-  font-family:helvetica;
+  font-family: helvetica;
   font-weight: 100;
-  font-size:50px;
-  color:gray;
+  font-size: 50px;
+  color: gray;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
-  text-align:center;
-  display:block;
+  text-align: center;
+  display: block;
 }
 
 #header-button-div, #header-h1-div {
-  text-align:center;
-  display:inline-block;
-  position:absolute;
-  height:100%;
-  width:100%;
-  margin-top:1%;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin-top: 1%;
   pointer-events: none;
 }
 
 #header {
-  pointer-events:auto;
-  height:10vh !important;
-  width:101%;
-  margin-left:1%;
-  margin-top:0;
+  pointer-events: auto;
+  height: 10vh !important;
+  width: 101%;
+  margin-left: 1%;
+  margin-top: 0;
   line-height: 10vh;
-  vertical-align:middle;
+  vertical-align: middle;
   background-color: rgba(0, 0, 0, 0.8);
   background-image: url('pixelated-background.png');
   background-size: cover;
   border-bottom-color: black;
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  z-index:2138457298347592873495474836;
+  z-index: 50;
 }
 
 #score-div {
   height: 100%;
   width: 200px;
   margin: 0;
-  position:relative;
-  display:inline-block;
-  vertical-align:middle;
-  text-align:left;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
 }
 
 #score, #highscore {
-  display:block;
+  display: block;
   margin: 0;
   margin-top: -2vh;
 }
@@ -358,16 +357,16 @@ h1 {
 }
 
 #header-h1 {
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   opacity: 0.5;
-  position:relative;
-  color:white;
+  position: relative;
+  color: white;
   height: 100%;
   width: auto;
   float: left;
   cursor: pointer;
-  display:inline-block;
+  display: inline-block;
   transition: opacity 0.25s;
   -webkit-transition: opacity 0.25s
 }
@@ -380,9 +379,9 @@ h1 {
   margin: 0;
   height: 8vh;
   width: 1px;
-  vertical-align:middle;
+  vertical-align: middle;
   background-color: black;
-  display:inline-block;
+  display: inline-block;
 }
 
 .separator-large {
@@ -394,11 +393,11 @@ h1 {
 }
 
 #info, #options {
-  height:auto;
-  text-align:left;
+  height: auto;
+  text-align: left;
   margin: 0;
   width: 70%;
-  margin-left:auto;
+  margin-left: auto;
   margin-right: auto;
   margin-top: 100px;
 }
@@ -411,9 +410,9 @@ h1 {
 
 #header-links-floaty-div {
   margin: 0;
-  float:right;
-  display:inline-block;
-  width:auto;
+  float: right;
+  display: inline-block;
+  width: auto;
   height: 10vh;
   line-height: 10vh;
   margin-right: 50px;
@@ -421,7 +420,7 @@ h1 {
 
 .option-outer {
   width: 100%;
-  display:block;
+  display: block;
   height: 100px;
   margin: 0;
   margin-right: auto;
@@ -432,7 +431,7 @@ h1 {
 .option-outer * {
   vertical-align: middle;
   margin: 0;
-  display:inline-block;
+  display: inline-block;
 }
 
 .option-outer .option-circle {
@@ -445,7 +444,7 @@ h1 {
   margin-top: 25px;
   top: -50%;
   cursor: pointer;
-  float:left;
+  float: left;
   transform-origin: 50% 50%;
   transform: scale(1);
   -webkit-transform-origin: 50% 50%;
@@ -489,9 +488,9 @@ h1 {
   font-size: 20px;
   font-family: helvetica, raleway, sans-serif;
   font-weight: 100;
-  display:inline-block;
-  position:relative;
-  color:white;
+  display: inline-block;
+  position: relative;
+  color: white;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.25s, opacity 0.25s;
@@ -502,23 +501,20 @@ h1 {
   opacity: 1;
 }
 
-.header-links:active {
-}
-
 #header-button-div-div {
-  height:100%;
-  width:100%;
-  position:relative;
-  display:inline-block;
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   pointer-events: none;
 }
 
 #header-button {
-  margin-left:auto;
-  position:relative;
+  margin-left: auto;
+  position: relative;
   opacity: 0;
   left: 0;
   cursor: pointer;
@@ -529,32 +525,32 @@ h1 {
 }
 
 #header-button.active {
-  left:13%;
+  left: 13%;
   opacity: 1;
 }
 
 #header-content {
-  width:101%;
+  width: 101%;
   background-color: rgba(50, 50, 50, 0.9);
-  height:100%;
-  top:-150%;
-  display:block;
-  position:relative;
+  height: 100%;
+  top: -150%;
+  display: block;
+  position: relative;
   transition: top 1s;
   -webkit-transition: top 1s;
-  text-align:center;
+  text-align: center;
   pointer-events: auto;
   overflow-y: scroll;
 }
 
 #header-content.shown {
-  top:0;
-  pointer-events:auto;
+  top: 0;
+  pointer-events: auto;
 }
 
 #header-content.shown * {
-  pointer-events:auto;
-  z-index:10;
+  pointer-events: auto;
+  z-index: 2;
 }
 
 #menu-background {
@@ -562,22 +558,22 @@ h1 {
   width: 100.5vw;
   height: 100.75vh;
   margin: 0;
-  z-index:34982;
-  pointer-events:auto;
+  z-index: 3;
+  pointer-events: auto;
   transition: opacity 0.25s;
   -webkit-transition: opacity 0.25s;
 }
 
 #menu-background.hidden {
   opacity: 0;
-  pointer-events:none;
+  pointer-events: none;
 }
 
 #quick-menu-outer {
   width: 1000px;
   height: 350px;
   border-radius: 200px;
-  position:absolute;
+  position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
   top: 50%;
   left: 50%;
@@ -588,14 +584,14 @@ h1 {
 #menu-message {
   height: 50px;
   border-radius: 25px;
-  display:block;
+  display: block;
   margin: 0;
   width: 75%;
-  margin-left:auto;
+  margin-left: auto;
   margin-right: auto;
   line-height: 50px;
   color: white;
-  text-align:center;
+  text-align: center;
 }
 
 #menu-message p {
@@ -607,8 +603,8 @@ h1 {
 .menu-divider {
   height: 350px;
   width: 33%;
-  position:relative;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
   margin: 0;
 }
 
@@ -619,8 +615,8 @@ h1 {
   left: 50%;
   width: auto;
   border-radius: 300px;
-  display:block;
-  margin-left:auto;
+  display: block;
+  margin-left: auto;
   margin-right: auto;
   cursor: pointer;
   border: 5px solid #EBEBFF;
@@ -651,16 +647,16 @@ h1 {
 }
 
 p {
-  color:white;
+  color: white;
 }
 
 a {
-  color:blue;
+  color: blue;
 }
 
 h2 {
-  font-size:100px;
-  font-weight:400;
+  font-size: 100px;
+  font-weight: 400;
   color: white;
 }
 
@@ -671,22 +667,22 @@ h3 {
 }
 
 h1.ultra {
-  font-size:200px;
-  text-align:center;
+  font-size: 200px;
+  text-align: center;
 }
 
 h6 {
-  font-size:25px;
-  font-weight:600;
-  color:white;
+  font-size: 25px;
+  font-weight: 600;
+  color: white;
 }
 
 #levels {
   width: 80%;
-  position:relative;
+  position: relative;
   height: 600px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   pointer-events: auto;
   overflow: hidden;
   transition: height 0.25s;
@@ -706,14 +702,14 @@ h6 {
 }
 
 .lvl-outer {
-  display:inline-block;
-  position:relative;
+  display: inline-block;
+  position: relative;
   background-color: rgba(50, 50, 50, 0.4);
-  line-height:40px;
+  line-height: 40px;
   border-radius: 10px;
-  text-align:center;
+  text-align: center;
   vertical-align: middle;
-  opacity:1;
+  opacity: 1;
   cursor: pointer;
   cursor: auto;
   transition: background-color 0.25s, border-radius 0.25s;
@@ -743,17 +739,17 @@ h6 {
 .lvl-outer.won {
   background-color: #666699;
   border-radius: 0px;
-  cursor:copy;
+  cursor: copy;
 }
 
 #playbutton, #level-header {
   border: 1px solid white;
-  border-radius:20px;
+  border-radius: 20px;
   width: auto;
   background-color: transparent;
   transition: background-color 0.25s;
   -webkit-transition: background-color 0.25s;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 #playbutton:hover, #level-header:hover {
@@ -765,10 +761,10 @@ h6 {
 }
 
 .wall {
-  z-index: 10000;
-  margin:0;
-  position:absolute;
-  display:inline-block;
+  z-index: 2;
+  margin: 0;
+  position: absolute;
+  display: inline-block;
   background-color: gray;
   transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
@@ -789,8 +785,8 @@ h6 {
 
 #pend {
   margin: 0;
-  position:absolute;
-  display:inline-block;
+  position: absolute;
+  display: inline-block;
   background-color: green;
   outline-color: #B9B9B9;
   outline-width: 1px;
@@ -812,12 +808,12 @@ h6 {
 #eend {
   margin: 0;
   position: absolute;
-  display:inline-block;
+  display: inline-block;
   background-color: orange;
   outline-color: orange;
   outline-width: 1px;
   border: 1px solid orange;
-  z-index:-1000;
+  z-index: -1000;
   -webkit-box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1);
   -moz-box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1));
   box-shadow: inset -12px 12px 0px -5px rgba(143, 86, 0, 1);
@@ -850,7 +846,7 @@ h6 {
   color:white;
   text-shadow: 0 0 5px #000;
   opacity: 0;
-  z-index:10000;
+  z-index:5;
 }
 
 .explosion {
